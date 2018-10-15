@@ -9,6 +9,7 @@ import MenuList from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
+import fire from '../../config/fire';
 
 
 const styles = theme => ({
@@ -19,6 +20,9 @@ const styles = theme => ({
   paper: {
     marginRight: theme.spacing.unit * 2,
   },
+  test: {
+      left: '20px'
+  }
 });
 
 class MenuListComposition extends React.Component {
@@ -38,6 +42,11 @@ class MenuListComposition extends React.Component {
     this.setState({ open: false });
   };
 
+  handleLogout = event => {
+    this.handleClose(event);
+    fire.auth().signOut();
+  }
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
@@ -56,7 +65,7 @@ class MenuListComposition extends React.Component {
           >
         <AccountCircle />
           </IconButton>
-          <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
+          <Popper className={classes.test} open={open} anchorEl={this.anchorEl} transition disablePortal>
             {({ TransitionProps, placement }) => (
               <Grow
                 {...TransitionProps}
@@ -67,8 +76,7 @@ class MenuListComposition extends React.Component {
                   <ClickAwayListener onClickAway={this.handleClose}>
                     <MenuList>
                       <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                      <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                      <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                     </MenuList>
                   </ClickAwayListener>
                 </Paper>

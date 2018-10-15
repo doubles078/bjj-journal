@@ -7,8 +7,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import logo from '../../assets/logo.png';
 import { AuthContext } from '../../App';
-import Test from './test';
 import ProfileButton from './profileButton';
+import LoginButton from './loginButton';
 
 const styles = {
   root: {
@@ -41,8 +41,7 @@ function ButtonAppBar(props) {
           <AuthContext.Consumer>
               {user => user ?           
                 <ProfileButton /> : 
-                <Test />
-                //<LoginButton text="Login" url="/signin" /> 
+                <LoginButton text="Login" url="/signin" /> 
               }
           </AuthContext.Consumer>           
         </Toolbar>
