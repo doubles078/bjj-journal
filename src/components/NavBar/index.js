@@ -7,11 +7,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import logo from '../../assets/logo.png';
 import { AuthContext } from '../../App';
-import LoginButton from './loginButton';
+import Test from './test';
+import ProfileButton from './profileButton';
 
 const styles = {
   root: {
     flexGrow: 1,
+    zIndex: 10000
   },
   grow: {
     flexGrow: 1,
@@ -29,7 +31,7 @@ function ButtonAppBar(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="absolute">
         <Toolbar>
           <Link to="/">
             <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
@@ -38,8 +40,9 @@ function ButtonAppBar(props) {
           </Link> 
           <AuthContext.Consumer>
               {user => user ?           
-                <LoginButton text="Logout" url="/signin" /> : 
-                <LoginButton text="Login" url="/signin" /> 
+                <ProfileButton /> : 
+                <Test />
+                //<LoginButton text="Login" url="/signin" /> 
               }
           </AuthContext.Consumer>           
         </Toolbar>

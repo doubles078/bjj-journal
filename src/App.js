@@ -1,19 +1,30 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
 import Dashboard from './components/Dashboard';
 import fire from './config/fire';
 
+
+//Initializing context api to globally manage authentication
 export const AuthContext = React.createContext();
+
+//Getting rid of those stupid warnings from Material UI
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+    suppressDeprecationWarnings: true
+  }
+});
+
 
 class App extends Component {
   constructor(props){
     super(props);
     
-
-    //Dont forget to null this later
     this.state = {
       user: null
     }
@@ -30,30 +41,55 @@ class App extends Component {
       if(user) {
         this.setState({ user });
         localStorage.setItem('user', user.uid);
-        console.log("I have a user")
-        console.log(user)
       } else {
         this.setState({ user: null });
         localStorage.removeItem('user');
-        console.log("I dont have a user")
       }
     })
   }
 
   render() {
     return (
-      <Router>
-        <AuthContext.Provider value={this.state.user}>
-          <div className="App">
-            <NavBar />
-            <div>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/signin" component={SignIn} />
-              <Route exact path="/dashboard" component={Dashboard} />
+      <MuiThemeProvider theme={theme}>
+        <Router>
+          <AuthContext.Provider value={this.state.user}>
+            <div className="App">
+              <NavBar />
+              <div>
+                <Route exact path="/"  render={() => (
+                    this.state.user ? (
+                      <Redirect to="/dashboard"/>
+                    ) : (
+                      <Home />
+                    )
+                  )} />
+                <Route exact path="/signin" render={() => (
+                    this.state.user ? (
+                      <Redirect to="/dashboard"/>
+                    ) : (
+                      <SignIn />
+                    )
+                  )} />
+                <Route exact path="/signup" render={() => (
+                    this.state.user ? (
+                      <Redirect to="/dashboard"/>
+                    ) : (
+                      <SignUp />
+                    )
+                  )} />
+                <Route exact path="/dashboard" render={() => (
+                    this.state.user ? (
+                      <Dashboard />
+                    ) : (
+                      <Redirect to="/signin"/> 
+                    )
+                  )} />
+              </div>
             </div>
-          </div>
-        </AuthContext.Provider>
-      </Router>
+          </AuthContext.Provider>
+        </Router>
+      </MuiThemeProvider>
+      
     )};
 }
 

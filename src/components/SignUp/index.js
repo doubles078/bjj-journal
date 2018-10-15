@@ -17,7 +17,6 @@ const styles = theme => ({
   layout: {
     width: 'auto',
     display: 'block', // Fix IE11 issue.
-    marginTop: '128px', // Offsetting the abs navbar
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -46,12 +45,18 @@ const styles = theme => ({
   },
 });
 
-class SignIn extends Component {
+class SignUp extends Component {
   constructor(props){
     super(props)
 
+    this.state = {
+      email: '',
+      password: '',
+      repassword: ''
+    }
+
     this.handleChange = this.handleChange.bind(this);
-    this.loginSubmit = this.loginSubmit.bind(this);
+    this.signupSubmit = this.signupSubmit.bind(this);
   }
 
   handleChange(e) {
@@ -61,13 +66,16 @@ class SignIn extends Component {
       this.setState({[name]: value})
   }
   
-  loginSubmit(e){
+  signupSubmit(e){
     e.preventDefault();
-    fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
-    }).catch((error) => {
-      console.log(error);
-    })
+
+    if(this.state.password === this.state.repassword) {
+      fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch((error) => {
+        alert(error.message)
+      })
+    }
   }
+
 
   render() {
     const { classes } = this.props;
@@ -81,9 +89,9 @@ class SignIn extends Component {
               <LockIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Sign up
             </Typography>
-            <form className={classes.form} onSubmit={(e) => this.loginSubmit(e)}>
+            <form className={classes.form} onSubmit={(e) => this.signupSubmit(e)}>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="email">Email Address</InputLabel>
                 <Input onChange={(e) => this.handleChange(e)} id="email" name="email" autoComplete="email" autoFocus />
@@ -94,12 +102,20 @@ class SignIn extends Component {
                   name="password"
                   type="password"
                   id="password"
-                  autoComplete="current-password"
                   onChange={(e) => this.handleChange(e)}
                 />
               </FormControl>
-              <Link to="/signup">
-                Don't have an account yet?
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="repassword">Re-Enter Password</InputLabel>
+                <Input
+                  name="repassword"
+                  type="password"
+                  id="repassword"
+                  onChange={(e) => this.handleChange(e)}
+                />
+              </FormControl>
+              <Link to="/signin">
+                Already have an account? Sign in.
               </Link>
               <Button
                 type="submit"
@@ -108,7 +124,7 @@ class SignIn extends Component {
                 color="primary"
                 className={classes.submit}
               >
-                Sign in
+                Sign Up
               </Button>
             </form>
           </Paper>
@@ -117,8 +133,8 @@ class SignIn extends Component {
     )}
 }
 
-SignIn.propTypes = {
+SignUp.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignIn);
+export default withStyles(styles)(SignUp);
