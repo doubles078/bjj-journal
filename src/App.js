@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import NavBar from './components/NavBar';
-import Home from './components/Home';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-import Dashboard from './components/Dashboard';
-import fire from './config/fire';
-
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import NavBar from "./components/NavBar";
+import Home from "./components/Home";
+import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
+import Dashboard from "./components/Dashboard";
+import Profile from "./components/Profile";
+import fire from "./config/fire";
 
 //Initializing context api to globally manage authentication
 export const AuthContext = React.createContext();
@@ -20,32 +20,31 @@ const theme = createMuiTheme({
   }
 });
 
-
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    
+
     this.state = {
       user: null
-    }
+    };
 
-    this.authListener = this.authListener.bind(this)
+    this.authListener = this.authListener.bind(this);
   }
 
-  componentDidMount(){
-      this.authListener()
+  componentDidMount() {
+    this.authListener();
   }
 
-  authListener(){
-    fire.auth().onAuthStateChanged((user) => {
-      if(user) {
+  authListener() {
+    fire.auth().onAuthStateChanged(user => {
+      if (user) {
         this.setState({ user });
-        localStorage.setItem('user', user.uid);
+        localStorage.setItem("user", user.uid);
       } else {
         this.setState({ user: null });
-        localStorage.removeItem('user');
+        localStorage.removeItem("user");
       }
-    })
+    });
   }
 
   render() {
@@ -54,43 +53,76 @@ class App extends Component {
         <Router>
           <AuthContext.Provider value={this.state.user}>
             <div className="App">
-              <NavBar />
+              {!this.state.user && <NavBar />}
               <div>
-                <Route exact path="/"  render={() => (
+                <Route
+                  exact
+                  path="/"
+                  render={() =>
+                    this.state.user ? <Redirect to="/dashboard" /> : <Home />
+                  }
+                />
+                <Route
+                  exact
+                  path="/signin"
+                  render={() =>
+                    this.state.user ? <Redirect to="/dashboard" /> : <SignIn />
+                  }
+                />
+                <Route
+                  exact
+                  path="/signup"
+                  render={() =>
+                    this.state.user ? <Redirect to="/dashboard" /> : <SignUp />
+                  }
+                />
+                <Route
+                  exact
+                  path="/dashboard"
+                  render={() =>
                     this.state.user ? (
-                      <Redirect to="/dashboard"/>
+                      <Dashboard currentpage="dashboard" />
                     ) : (
-                      <Home />
+                      <Redirect to="/signin" />
                     )
-                  )} />
-                <Route exact path="/signin" render={() => (
+                  }
+                />
+                <Route
+                  exact
+                  path="/myfeed"
+                  render={() =>
                     this.state.user ? (
-                      <Redirect to="/dashboard"/>
+                      <Dashboard currentpage="myfeed" />
                     ) : (
-                      <SignIn />
+                      <Redirect to="/signin" />
                     )
-                  )} />
-                <Route exact path="/signup" render={() => (
+                  }
+                />
+                <Route
+                  exact
+                  path="/add"
+                  render={() =>
                     this.state.user ? (
-                      <Redirect to="/dashboard"/>
+                      <Dashboard currentpage="add" />
                     ) : (
-                      <SignUp />
+                      <Redirect to="/signin" />
                     )
-                  )} />
-                <Route exact path="/dashboard" render={() => (
-                    this.state.user ? (
-                      <Dashboard />
-                    ) : (
-                      <Redirect to="/signin"/> 
-                    )
-                  )} />
+                  }
+                />
+                <Route
+                  exact
+                  path="/profile"
+                  render={() =>
+                    this.state.user ? <Profile /> : <Redirect to="/signin" />
+                  }
+                />
               </div>
             </div>
           </AuthContext.Provider>
         </Router>
       </MuiThemeProvider>
-      
-    )};
+    );
+  }
 }
 
 export default App;
