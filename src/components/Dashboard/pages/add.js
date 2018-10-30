@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -51,84 +51,118 @@ const styles = theme => ({
   }
 });
 
-function AddTrainingSession(props) {
-  const { classes } = props;
+class AddTrainingSession extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <Grid container className={classes.root}>
-      <Grid container spacing={8}>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <Typography variant="h4" gutterBottom>
-              Add a training session
-            </Typography>
-            <Grid item xs={12} sm={12}>
-              <ToggleButtonGroup value="1" className={classes.formInputs}>
-                <ToggleButton value="1">Class</ToggleButton>
-                <ToggleButton>Open Mat</ToggleButton>
-                <ToggleButton>Roll</ToggleButton>
-              </ToggleButtonGroup>
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <ToggleButtonGroup value="1" className={classes.formInputs}>
-                <ToggleButton>Gi</ToggleButton>
-                <ToggleButton value="1">No Gi</ToggleButton>
-              </ToggleButtonGroup>
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <TextField
-                className={classes.formInputs}
-                id="technique"
-                name="technique"
-                label="Main Technique or Focus"
-                fullWidth
-                autoComplete="technique"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                className={classes.formInputs}
-                id="notes"
-                label="Notes"
-                multiline
-                fullWidth
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                className={classes.formInputs}
-                id="didwell"
-                label="What I Did Well"
-                multiline
-                fullWidth
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                className={classes.formInputs}
-                id="workon"
-                label="What I Could Work On"
-                multiline
-                fullWidth
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                variant="contained"
-                className={classes.formInputs}
-                color="secondary"
-              >
-                Save
-              </Button>
-            </Grid>
-          </Paper>
+    this.state = {};
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e) {
+    e.preventDefault();
+    console.log(e.currentTarget);
+  }
+
+  render() {
+    const { classes } = this.props;
+    const { type } = this.state;
+
+    return (
+      <Grid container className={classes.root}>
+        <Grid container spacing={8}>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>
+              <Typography variant="h4" gutterBottom>
+                Add a training session
+              </Typography>
+              <Grid item xs={12} sm={12}>
+                <ToggleButtonGroup value={type} className={classes.formInputs}>
+                  <ToggleButton
+                    onClick={this.handleChange}
+                    name="type"
+                    value="class"
+                  >
+                    Class
+                  </ToggleButton>
+                  <ToggleButton
+                    onClick={this.handleChange}
+                    name="type"
+                    value="openmat"
+                  >
+                    Open Mat
+                  </ToggleButton>
+                  <ToggleButton
+                    onClick={this.handleChange}
+                    name="type"
+                    value="roll"
+                  >
+                    Roll
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <ToggleButtonGroup value="1" className={classes.formInputs}>
+                  <ToggleButton value="4">Gi</ToggleButton>
+                  <ToggleButton value="1">No Gi</ToggleButton>
+                </ToggleButtonGroup>
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <TextField
+                  className={classes.formInputs}
+                  id="technique"
+                  name="technique"
+                  label="Main Technique or Focus"
+                  fullWidth
+                  autoComplete="technique"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.formInputs}
+                  id="notes"
+                  label="Notes"
+                  multiline
+                  fullWidth
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.formInputs}
+                  id="didwell"
+                  label="What I Did Well"
+                  multiline
+                  fullWidth
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.formInputs}
+                  id="workon"
+                  label="What I Could Work On"
+                  multiline
+                  fullWidth
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  className={classes.formInputs}
+                  color="secondary"
+                >
+                  Save
+                </Button>
+              </Grid>
+            </Paper>
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
-  );
+    );
+  }
 }
 
 AddTrainingSession.propTypes = {
