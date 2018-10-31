@@ -10,6 +10,7 @@ import DashboardAppBar from "./components/appbar";
 import Home from "./pages/home";
 import MyFeed from "./pages/feed";
 import Add from "./pages/add";
+import fire from "../../config/fire";
 
 const drawerWidth = 240;
 
@@ -53,7 +54,10 @@ const styles = theme => ({
 
 class ResponsiveDrawer extends React.Component {
   state = {
-    mobileOpen: false
+    userid: fire.auth().currentUser.uid,
+    mobileOpen: false,
+    latestPost: "",
+    loading: true
   };
 
   handleDrawerToggle = () => {
@@ -61,7 +65,17 @@ class ResponsiveDrawer extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.currentpage);
+    const _this = this;
+    const userid = this.state.userid;
+    fire
+      .database()
+      .ref("users/" + userid)
+      .orderByChild("time")
+      .limitToLast(1)
+      .once("value")
+      .then(function(snapshot) {
+        _this.setState({ latestPost: snapshot.val(), loading: false });
+      });
   }
 
   render() {
@@ -86,7 +100,12 @@ class ResponsiveDrawer extends React.Component {
         currentpage = <Add />;
         break;
       default:
-        currentpage = <Home />;
+        currentpage = (
+          <Home
+            latestPost={this.state.latestPost}
+            loading={this.state.loading}
+          />
+        );
         break;
     }
 

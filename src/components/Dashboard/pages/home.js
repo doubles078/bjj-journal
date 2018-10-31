@@ -22,7 +22,10 @@ const styles = theme => ({
   }
 });
 
-function Dashboard({ classes }) {
+function Dashboard({ classes, latestPost, loading }) {
+  let latestPostKey = Object.keys(latestPost)[0];
+  console.log(latestPost);
+
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
@@ -53,7 +56,13 @@ function Dashboard({ classes }) {
           <Typography>Last Training Session</Typography>
         </Grid>
         <Grid item xs={12}>
-          <TrainingCard />
+          {!loading && (
+            <TrainingCard
+              technique={latestPost[latestPostKey].technique}
+              date={latestPost[latestPostKey].date}
+              notes={latestPost[latestPostKey].notes}
+            />
+          )}
         </Grid>
       </Grid>
     </Grid>
@@ -61,7 +70,8 @@ function Dashboard({ classes }) {
 }
 
 Dashboard.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  loading: PropTypes.bool
 };
 
 export default withStyles(styles)(Dashboard);

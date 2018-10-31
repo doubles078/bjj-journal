@@ -28,7 +28,9 @@ const styles = theme => ({
   }
 });
 
-const TrainingCard = ({ classes }) => {
+const TrainingCard = ({ classes, technique, notes, date }) => {
+  let convertedDate = new Date(date).toLocaleString().split(",")[0];
+
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -39,15 +41,11 @@ const TrainingCard = ({ classes }) => {
         }
         className={classes.header}
         classes={{ title: classes.title, subheader: classes.subheader }}
-        title="Overhook from closed guard"
-        subheader="October 1, 2018"
+        title={technique}
+        subheader={convertedDate}
       />
       <CardContent>
-        <Typography component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
-        </Typography>
+        <Typography component="p">{notes}</Typography>
       </CardContent>
 
       <Footer />
@@ -56,7 +54,9 @@ const TrainingCard = ({ classes }) => {
 };
 
 TrainingCard.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  technique: PropTypes.string,
+  notes: PropTypes.string
 };
 
 export default withStyles(styles)(TrainingCard);

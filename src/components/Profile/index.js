@@ -13,7 +13,7 @@ const styles = theme => ({
   }
 });
 
-class InteractiveGrid extends React.Component {
+class Profile extends React.Component {
   render() {
     const { classes } = this.props;
 
@@ -40,8 +40,8 @@ class InteractiveGrid extends React.Component {
   }
 }
 
-InteractiveGrid.propTypes = {
+Profile.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(InteractiveGrid);
+export default withStyles(styles)(Profile);
