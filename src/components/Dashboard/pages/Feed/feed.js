@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import TrainingCard from "../../TrainingCard";
-import fire from "../../../config/fire";
+import TrainingCard from "../../../TrainingCard";
+import fire from "../../../../config/fire";
 
 const styles = theme => ({
   root: {
@@ -53,22 +53,27 @@ class Feed extends Component {
 
     return (
       <Grid container className={classes.root}>
-        {console.log(this.state)}
         <Grid item xs={12}>
           <h1>I Am Feed</h1>
         </Grid>
-        <Grid container spacing={8}>
-          <Grid item xs={12}>
-            {!this.state.loading &&
-              trainingSessionList.map(trainingSession => (
+        <Grid container spacing={16}>
+          {!this.state.loading &&
+            trainingSessionList.map(trainingSession => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                key={trainingSession.time}
+              >
                 <TrainingCard
-                  key={trainingSession.time}
                   technique={trainingSession.technique}
                   notes={trainingSession.notes}
                   date={trainingSession.date}
                 />
-              ))}
-          </Grid>
+              </Grid>
+            ))}
         </Grid>
       </Grid>
     );

@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import TrainingCard from "../../TrainingCard";
-import NumberCard from "../../NumberCard";
+import TrainingCard from "../../../TrainingCard";
+import NumberCard from "../../../NumberCard";
 import Typography from "@material-ui/core/Typography";
-import PracticeList from "../../PracticeList";
+import PracticeList from "../../../PracticeList";
 
 const styles = theme => ({
   root: {
@@ -24,7 +24,6 @@ const styles = theme => ({
 
 function Dashboard({ classes, latestPost, loading }) {
   let latestPostKey = Object.keys(latestPost)[0];
-  console.log(latestPost);
 
   return (
     <Grid container className={classes.root}>

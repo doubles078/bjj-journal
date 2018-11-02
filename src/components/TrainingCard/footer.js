@@ -1,16 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ClassIcon from "@material-ui/icons/Class";
+import CardActions from "@material-ui/core/CardActions";
+import Button from "@material-ui/core/Button";
 
-const styles = {
-  root: {}
-};
+const styles = theme => ({
+  root: {
+    backgroundColor: theme.palette.primary.main,
+    padding: 0
+  },
+  button: {
+    color: "#FFF",
+    width: "100%"
+  }
+});
 
-class SimpleBottomNavigation extends React.Component {
+class CardFooter extends React.Component {
   state = {
     value: 0
   };
@@ -24,21 +29,22 @@ class SimpleBottomNavigation extends React.Component {
     const { value } = this.state;
 
     return (
-      <BottomNavigation
+      <CardActions
         value={value}
         onChange={this.handleChange}
         showLabels
         className={classes.root}
       >
-        <BottomNavigationAction label="Class" icon={<ClassIcon />} />
-        <BottomNavigationAction label="No Gi" icon={<FavoriteIcon />} />
-      </BottomNavigation>
+        <Button color="primary" className={classes.button}>
+          Read More
+        </Button>
+      </CardActions>
     );
   }
 }
 
-SimpleBottomNavigation.propTypes = {
+CardFooter.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SimpleBottomNavigation);
+export default withStyles(styles)(CardFooter);

@@ -2,29 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
-import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import red from "@material-ui/core/colors/red";
 import Footer from "./footer";
 
 const styles = theme => ({
   card: {
     maxWidth: "100%"
   },
-  header: {
-    backgroundColor: theme.palette.primary.main
+  cardContain: {
+    display: "flex",
+    justifyContent: "space-around",
+    backgroundColor: "#F5F5F5"
   },
   title: {
     color: "#FFF",
     fontWeight: "bold"
-  },
-  subheader: {
-    color: "#FFF"
-  },
-  avatar: {
-    backgroundColor: red[500]
   }
 });
 
@@ -33,21 +26,14 @@ const TrainingCard = ({ classes, technique, notes, date }) => {
 
   return (
     <Card className={classes.card}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="Avatar" className={classes.avatar}>
-            D
-          </Avatar>
-        }
-        className={classes.header}
-        classes={{ title: classes.title, subheader: classes.subheader }}
-        title={technique}
-        subheader={convertedDate}
-      />
       <CardContent>
-        <Typography component="p">{notes}</Typography>
+        <Typography variant="h6">{technique}</Typography>
       </CardContent>
-
+      <CardContent className={classes.cardContain}>
+        <Typography component="p">Class</Typography>
+        <Typography component="p">Gi</Typography>
+        <Typography component="p">{convertedDate}</Typography>
+      </CardContent>
       <Footer />
     </Card>
   );

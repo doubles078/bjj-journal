@@ -4,17 +4,25 @@ import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import Divider from "@material-ui/core/Divider";
-import ListData from "./components/drawer";
+import Typography from "@material-ui/core/Typography";
+import ListData from "./components/Drawer";
+import DashboardAppBar from "./components/AppBar";
+import Home from "./pages/Home";
+import MyFeed from "./pages/Feed";
+import Add from "./pages/Add";
 
-import DashboardAppBar from "./components/appbar";
-import Home from "./pages/home";
-import MyFeed from "./pages/feed";
-import Add from "./pages/add";
 import fire from "../../config/fire";
 
 const drawerWidth = 240;
 
 const styles = theme => ({
+  drawerContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    paddingLeft: "24px",
+    paddingTop: "10px"
+  },
   root: {
     flexGrow: 1,
     height: 440,
@@ -67,6 +75,7 @@ class ResponsiveDrawer extends React.Component {
   componentDidMount() {
     const _this = this;
     const userid = this.state.userid;
+
     fire
       .database()
       .ref("users/" + userid)
@@ -80,26 +89,20 @@ class ResponsiveDrawer extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
-
-    const drawer = (
-      <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <ListData />
-        <Divider />
-      </div>
-    );
-
     let currentpage;
+    let currentpageContext;
 
     switch (this.props.currentpage) {
       case "myfeed":
         currentpage = <MyFeed />;
+        currentpageContext = "My Feed";
         break;
       case "add":
         currentpage = <Add />;
+        currentpageContext = "Add a Session";
         break;
       default:
+        currentpageContext = "Dashboard";
         currentpage = (
           <Home
             latestPost={this.state.latestPost}
@@ -109,9 +112,27 @@ class ResponsiveDrawer extends React.Component {
         break;
     }
 
+    const drawer = (
+      <div>
+        <div className={classes.drawerContainer}>
+          <Typography component="h2" variant="h5" gutterBottom>
+            Little Fighter Dude
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            BETA
+          </Typography>
+        </div>
+        <Divider />
+        <ListData />
+      </div>
+    );
+
     return (
       <div className={classes.root}>
-        <DashboardAppBar toggle={this.handleDrawerToggle} />
+        <DashboardAppBar
+          toggle={this.handleDrawerToggle}
+          currentpageContext={currentpageContext}
+        />
         <Hidden mdUp>
           <Drawer
             variant="temporary"

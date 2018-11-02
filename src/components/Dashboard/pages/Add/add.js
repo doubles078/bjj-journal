@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -9,33 +10,33 @@ import Paper from "@material-ui/core/Paper";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { Redirect } from "react-router-dom";
-import fire from "../../../config/fire";
+import fire from "../../../../config/fire";
 
 const styles = theme => ({
   root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden"
+    width: "auto",
+    marginLeft: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
+      maxWidth: 600,
+      marginLeft: "auto",
+      marginRight: "auto"
+    }
   },
-  gridList: {
-    width: 500,
-    height: 450
+
+  errors: {
+    color: "red"
   },
-  icon: {
-    color: "rgba(255, 255, 255, 0.54)"
-  },
-  avatar: {
-    margin: `${theme.spacing.unit}px auto`,
-    backgroundColor: theme.palette.secondary.main,
-    textAlign: "center"
-  },
+
   paper: {
-    marginTop: theme.spacing.unit * 6,
-    display: "flex",
-    flexDirection: "column",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
+      marginTop: theme.spacing.unit * 6,
+      marginBottom: theme.spacing.unit * 6,
+      padding: theme.spacing.unit * 3
+    }
   },
   form: {
     width: "100%", // Fix IE11 issue.
@@ -47,6 +48,9 @@ const styles = theme => ({
   },
   submit: {
     marginTop: theme.spacing.unit * 3
+  },
+  notes: {
+    display: "flex"
   }
 });
 
@@ -65,7 +69,8 @@ class AddTrainingSession extends Component {
       workon: "",
       date: Date.now(),
       time: new Date().getTime(),
-      redirect: false
+      redirect: false,
+      errors: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -87,13 +92,19 @@ class AddTrainingSession extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    Object.keys(this.state).map(i => {
-      if (this.state[i].length === 0) {
-        console.log("Make sure you arent missing anything");
-        return false;
-      }
-      return true;
-    });
+    const { technique, notes, didwell, workon } = this.state;
+
+    if (!technique || !notes || !didwell || !workon) {
+      this.setState({ errors: true });
+      return;
+    } else {
+      this.setState({ errors: false });
+      this.firebaseSubmit();
+      this.setRedirect();
+    }
+  }
+
+  firebaseSubmit = () => {
     fire
       .database()
       .ref("users/" + this.state.userid)
@@ -107,9 +118,7 @@ class AddTrainingSession extends Component {
         date: this.state.date,
         time: this.state.time
       });
-    this.setRedirect();
-    console.log("Submitted");
-  }
+  };
 
   renderRedirect = () => {
     if (this.state.redirect) {
@@ -133,11 +142,21 @@ class AddTrainingSession extends Component {
         <Grid container spacing={8}>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+              <form
+                noValidate
+                autoComplete="off"
+                className={classes.form}
+                onSubmit={this.handleSubmit}
+              >
                 <Typography variant="h4" gutterBottom>
                   Add a training session
                 </Typography>
                 <Grid item xs={12} sm={12}>
+                  {this.state.errors && (
+                    <FormHelperText className={classes.errors}>
+                      Looks like you forgot a field!
+                    </FormHelperText>
+                  )}
                   <ToggleButtonGroup
                     value={type}
                     className={classes.formInputs}
@@ -200,19 +219,19 @@ class AddTrainingSession extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    className={classes.formInputs}
+                    className={classes.notes}
                     id="notes"
                     name="notes"
                     value={notes}
+                    rows="8"
                     label="Notes"
                     multiline
-                    fullWidth
-                    margin="normal"
                     onChange={this.handleChange}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    error={this.state.errors}
                     className={classes.formInputs}
                     id="didwell"
                     name="didwell"
@@ -231,7 +250,6 @@ class AddTrainingSession extends Component {
                     name="workon"
                     value={workon}
                     label="What I Could Work On"
-                    multiline
                     fullWidth
                     margin="normal"
                     onChange={this.handleChange}

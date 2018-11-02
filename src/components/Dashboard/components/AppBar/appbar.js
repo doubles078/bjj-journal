@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import ProfileButton from "../../NavBar/profileButton";
+import ProfileButton from "../../../NavBar/profileButton";
 
 const drawerWidth = 240;
 
@@ -26,7 +26,7 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar
 });
 
-const DashboardAppBar = ({ classes, toggle }) => {
+const DashboardAppBar = ({ classes, toggle, currentpageContext }) => {
   return (
     <React.Fragment>
       <AppBar className={classes.appBar}>
@@ -40,7 +40,7 @@ const DashboardAppBar = ({ classes, toggle }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" noWrap>
-            Little Fighter Dude
+            {currentpageContext}
           </Typography>
           <ProfileButton />
         </Toolbar>
@@ -51,7 +51,8 @@ const DashboardAppBar = ({ classes, toggle }) => {
 
 DashboardAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired,
+  location: PropTypes.string
 };
 
 export default withStyles(styles, { withTheme: true })(DashboardAppBar);

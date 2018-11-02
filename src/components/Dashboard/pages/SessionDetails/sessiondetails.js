@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import TrainingCard from "../../TrainingCard";
+import TrainingCard from "../../../TrainingCard";
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
