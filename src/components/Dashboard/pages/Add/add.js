@@ -24,7 +24,7 @@ const styles = theme => ({
     }
   },
 
-  errors: {
+  error: {
     color: "red"
   },
 
@@ -70,15 +70,13 @@ class AddTrainingSession extends Component {
       date: Date.now(),
       time: new Date().getTime(),
       redirect: false,
-      errors: false
+      error: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
-    console.log(this.state);
-    console.log(fire.auth().currentUser);
     if (this.state.redirect) return <Redirect to={"/dashboard"} />;
   }
   handleChange(e) {
@@ -95,10 +93,10 @@ class AddTrainingSession extends Component {
     const { technique, notes, didwell, workon } = this.state;
 
     if (!technique || !notes || !didwell || !workon) {
-      this.setState({ errors: true });
+      this.setState({ error: true });
       return;
     } else {
-      this.setState({ errors: false });
+      this.setState({ error: false });
       this.firebaseSubmit();
       this.setRedirect();
     }
@@ -107,7 +105,7 @@ class AddTrainingSession extends Component {
   firebaseSubmit = () => {
     fire
       .database()
-      .ref("users/" + this.state.userid)
+      .ref("users/" + this.state.userid + "/trainingSessions")
       .push({
         type: this.state.type,
         style: this.state.style,
@@ -152,9 +150,9 @@ class AddTrainingSession extends Component {
                   Add a training session
                 </Typography>
                 <Grid item xs={12} sm={12}>
-                  {this.state.errors && (
-                    <FormHelperText className={classes.errors}>
-                      Looks like you forgot a field!
+                  {this.state.error && (
+                    <FormHelperText className={classes.error}>
+                      Looks like you forgot to fill something out!
                     </FormHelperText>
                   )}
                   <ToggleButtonGroup
@@ -174,13 +172,6 @@ class AddTrainingSession extends Component {
                       value="openmat"
                     >
                       Open Mat
-                    </ToggleButton>
-                    <ToggleButton
-                      onClick={this.handleChange}
-                      name="type"
-                      value="roll"
-                    >
-                      Roll
                     </ToggleButton>
                   </ToggleButtonGroup>
                 </Grid>
@@ -207,6 +198,7 @@ class AddTrainingSession extends Component {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
+                    error={this.state.error && !this.state.technique}
                     className={classes.formInputs}
                     id="technique"
                     name="technique"
@@ -219,6 +211,7 @@ class AddTrainingSession extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    error={this.state.error && !this.state.notes}
                     className={classes.notes}
                     id="notes"
                     name="notes"
@@ -231,7 +224,7 @@ class AddTrainingSession extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    error={this.state.errors}
+                    error={this.state.error && !this.state.didwell}
                     className={classes.formInputs}
                     id="didwell"
                     name="didwell"
@@ -245,6 +238,7 @@ class AddTrainingSession extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    error={this.state.error && !this.state.workon}
                     className={classes.formInputs}
                     id="workon"
                     name="workon"

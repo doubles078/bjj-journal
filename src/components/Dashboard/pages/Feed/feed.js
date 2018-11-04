@@ -32,11 +32,11 @@ class Feed extends Component {
   }
 
   componentDidMount() {
-    const user = fire.auth().currentUser.uid;
+    const userid = fire.auth().currentUser.uid;
     const _this = this;
     fire
       .database()
-      .ref("users/" + user)
+      .ref("users/" + userid + "/trainingSessions")
       .once("value", function(snapshot) {
         _this.setState({ data: snapshot.val(), loading: false });
       });
@@ -54,7 +54,7 @@ class Feed extends Component {
     return (
       <Grid container className={classes.root}>
         <Grid item xs={12}>
-          <h1>I Am Feed</h1>
+          <h1>My Feed</h1>
         </Grid>
         <Grid container spacing={16}>
           {!this.state.loading &&

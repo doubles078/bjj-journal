@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -16,13 +16,6 @@ import fire from "../../config/fire";
 const drawerWidth = 240;
 
 const styles = theme => ({
-  drawerContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    paddingLeft: "24px",
-    paddingTop: "10px"
-  },
   root: {
     flexGrow: 1,
     height: 440,
@@ -33,12 +26,15 @@ const styles = theme => ({
     display: "flex",
     width: "100%"
   },
-  appBar: {
-    position: "absolute",
-    marginLeft: drawerWidth,
-    [theme.breakpoints.up("md")]: {
-      width: `calc(100% - ${drawerWidth}px)`
-    }
+  drawerContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    paddingLeft: "24px",
+    paddingTop: "10px"
+  },
+  pageContainer: {
+    margin: "auto"
   },
   navIconHide: {
     [theme.breakpoints.up("md")]: {
@@ -60,7 +56,7 @@ const styles = theme => ({
   }
 });
 
-class ResponsiveDrawer extends React.Component {
+class DashboardContainer extends Component {
   state = {
     userid: fire.auth().currentUser.uid,
     mobileOpen: false,
@@ -71,21 +67,6 @@ class ResponsiveDrawer extends React.Component {
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
-
-  componentDidMount() {
-    const _this = this;
-    const userid = this.state.userid;
-
-    fire
-      .database()
-      .ref("users/" + userid)
-      .orderByChild("time")
-      .limitToLast(1)
-      .once("value")
-      .then(function(snapshot) {
-        _this.setState({ latestPost: snapshot.val(), loading: false });
-      });
-  }
 
   render() {
     const { classes, theme } = this.props;
@@ -103,12 +84,7 @@ class ResponsiveDrawer extends React.Component {
         break;
       default:
         currentpageContext = "Dashboard";
-        currentpage = (
-          <Home
-            latestPost={this.state.latestPost}
-            loading={this.state.loading}
-          />
-        );
+        currentpage = <Home />;
         break;
     }
 
@@ -162,16 +138,16 @@ class ResponsiveDrawer extends React.Component {
         </Hidden>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {currentpage}
+          <div className={classes.pageContainer}>{currentpage}</div>
         </main>
       </div>
     );
   }
 }
 
-ResponsiveDrawer.propTypes = {
+DashboardContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default withStyles(styles, { withTheme: true })(DashboardContainer);

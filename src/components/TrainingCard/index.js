@@ -8,16 +8,22 @@ import Footer from "./footer";
 
 const styles = theme => ({
   card: {
-    maxWidth: "100%"
+    maxWidth: "100%",
+    minWidth: 275
   },
   cardContain: {
     display: "flex",
-    justifyContent: "space-around",
-    backgroundColor: "#F5F5F5"
+    justifyContent: "space-around"
   },
   title: {
     color: "#FFF",
     fontWeight: "bold"
+  },
+  date: {
+    fontSize: 14
+  },
+  pos: {
+    marginBottom: 12
   }
 });
 
@@ -27,12 +33,14 @@ const TrainingCard = ({ classes, technique, notes, date }) => {
   return (
     <Card className={classes.card}>
       <CardContent>
+        <Typography className={classes.date} color="textSecondary">
+          {convertedDate}
+        </Typography>
         <Typography variant="h6">{technique}</Typography>
-      </CardContent>
-      <CardContent className={classes.cardContain}>
-        <Typography component="p">Class</Typography>
-        <Typography component="p">Gi</Typography>
-        <Typography component="p">{convertedDate}</Typography>
+        <Typography className={classes.pos} color="textSecondary">
+          Class | No Gi
+        </Typography>
+        <Typography component="p">{notes}</Typography>
       </CardContent>
       <Footer />
     </Card>

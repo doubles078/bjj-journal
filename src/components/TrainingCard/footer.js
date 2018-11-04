@@ -1,19 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
-
-const styles = theme => ({
-  root: {
-    backgroundColor: theme.palette.primary.main,
-    padding: 0
-  },
-  button: {
-    color: "#FFF",
-    width: "100%"
-  }
-});
 
 class CardFooter extends React.Component {
   state = {
@@ -25,17 +12,11 @@ class CardFooter extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
     const { value } = this.state;
 
     return (
-      <CardActions
-        value={value}
-        onChange={this.handleChange}
-        showLabels
-        className={classes.root}
-      >
-        <Button color="primary" className={classes.button}>
+      <CardActions value={value} onChange={this.handleChange}>
+        <Button color="primary" size="small">
           Read More
         </Button>
       </CardActions>
@@ -43,8 +24,4 @@ class CardFooter extends React.Component {
   }
 }
 
-CardFooter.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(CardFooter);
+export default CardFooter;
