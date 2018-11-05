@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import TrainingCard from "../../../TrainingCard";
-import NumberCard from "../../../NumberCard";
 import Typography from "@material-ui/core/Typography";
-import PracticeList from "../../../PracticeList";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import TrainingCard from "../../../TrainingCard";
+import MonthRecapCard from "./Cards/monthRecapCard";
+import ProfileCard from "./Cards/profileCard";
+import TotalRecapCard from "./Cards/totalRecapCard";
 
 import fire from "../../../../config/fire";
 
@@ -53,20 +55,10 @@ class Dashboard extends Component {
 
         _this.setState({
           latestPost: trainingSessions[latest],
+          goal: snapshot.val().profile.currentgoal,
           loading: false
         });
       });
-
-    // I Need to do all this stuff after the promise above resolves
-    // const trainingSessionKeys = Object.keys(this.state.data.trainingSessions);
-    // var latestPost;
-
-    // trainingSessionKeys.map(trainingSession => {
-    //   if (this.state.data.trainingSessions[trainingSession].date > latestPost) {
-    //     latestPost = this.state.data.trainingSessions[trainingSession];
-    //     console.log(latestPost);
-    //   }
-    // });
   }
 
   render() {
@@ -75,34 +67,27 @@ class Dashboard extends Component {
     return (
       <Grid container className={classes.root}>
         <Grid item xs={12}>
-          <h1>I am dashboard</h1>
+          <Typography variant="overline">Current Goal</Typography>
+          <Typography variant="h5">{this.state.goal}</Typography>
         </Grid>
-        <Grid container spacing={8}>
-          <Grid item xs={12}>
-            <Typography>Top 3 Things to Practice</Typography>
-            <PracticeList />
+        <Grid container spacing={16}>
+          <Grid item xs={12} sm={6}>
+            <MonthRecapCard classNumber={5} openMatNumber={8} />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <ProfileCard />
           </Grid>
 
-          <Grid item xs={12}>
-            <Typography>Top 3 Things to Practice</Typography>
+          <Grid item xs={12} sm={6}>
+            <TotalRecapCard />
           </Grid>
-          <Grid item xs={6}>
-            <NumberCard type={"Classes"} />
-          </Grid>
-          <Grid item xs={6}>
-            <NumberCard type={"Rolls"} />
-          </Grid>
-          <Grid item xs={6}>
-            <NumberCard type={"Open Mats"} />
-          </Grid>
-          <Grid item xs={6}>
-            <NumberCard type={"Classes this belt"} />
-          </Grid>
-          <Grid item xs={12}>
+
+          <Grid item xs={12} sm={6}>
             <Typography>Last Training Session</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            {this.state.loading && "IM LOADING"}
+
+            {this.state.loading && (
+              <CircularProgress className={classes.progress} />
+            )}
             {!this.state.loading && (
               <TrainingCard
                 technique={this.state.latestPost.technique}
