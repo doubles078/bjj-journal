@@ -8,6 +8,7 @@ import Footer from "./footer";
 
 const styles = theme => ({
   card: {
+    borderTop: "10px solid " + theme.palette.primary.main,
     maxWidth: "100%",
     minWidth: 275
   },
@@ -23,12 +24,19 @@ const styles = theme => ({
     fontSize: 14
   },
   pos: {
-    marginBottom: 12
+    marginBottom: 12,
+    textTransform: "capitalize"
   }
 });
 
-const TrainingCard = ({ classes, technique, notes, date }) => {
+const TrainingCard = ({ classes, technique, notes, date, type, style }) => {
   let convertedDate = new Date(date).toLocaleString().split(",")[0];
+  const truncate = (string, n) => {
+    return string.length > n ? string.substr(0, n - 1) + "..." : string;
+  };
+
+  let truncNotes = truncate(notes, 90);
+  let truncTitle = truncate(technique, 60);
 
   return (
     <Card className={classes.card}>
@@ -36,13 +44,11 @@ const TrainingCard = ({ classes, technique, notes, date }) => {
         <Typography className={classes.date} color="textSecondary">
           {convertedDate}
         </Typography>
-        <Typography variant="h6">{technique}</Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          Class | No Gi
-        </Typography>
-        <Typography component="p">{notes}</Typography>
+        <Typography variant="h6">{truncTitle}</Typography>
+
+        <Typography component="p">{truncNotes}</Typography>
       </CardContent>
-      <Footer />
+      <Footer giornogi={style} classormat={type} />
     </Card>
   );
 };
@@ -50,7 +56,10 @@ const TrainingCard = ({ classes, technique, notes, date }) => {
 TrainingCard.propTypes = {
   classes: PropTypes.object.isRequired,
   technique: PropTypes.string,
-  notes: PropTypes.string
+  notes: PropTypes.string,
+  date: PropTypes.number,
+  type: PropTypes.string,
+  style: PropTypes.string
 };
 
 export default withStyles(styles)(TrainingCard);

@@ -71,6 +71,8 @@ class Feed extends Component {
                   technique={trainingSession.technique}
                   notes={trainingSession.notes}
                   date={trainingSession.date}
+                  type={trainingSession.type}
+                  style={trainingSession.style}
                 />
               </Grid>
             ))}

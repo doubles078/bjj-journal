@@ -2,23 +2,34 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
+import Cyan from "@material-ui/core/colors/cyan";
+import Pink from "@material-ui/core/colors/pink";
+import Amber from "@material-ui/core/colors/amber";
 
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2
   },
   card: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "3rem",
+    minWidth: "125px"
   }
 });
 
-function MonthRecapCard({ classes, classNumber, openMatNumber }) {
+function MonthRecapCard({
+  classes,
+  classCount,
+  openMatCount,
+  giCount,
+  noGiCount
+}) {
   const monthNames = [
     "January",
     "February",
@@ -36,38 +47,64 @@ function MonthRecapCard({ classes, classNumber, openMatNumber }) {
   const month = new Date().getMonth();
   const currentMonthName = monthNames[month];
   return (
-    <div>
-      <Paper className={classes.root} elevation={1}>
-        <Typography variant="h5" component="h3">
-          {currentMonthName}
-        </Typography>
-        <Grid container spacing={16}>
-          <Grid item xs={6}>
-            <Card className={classes.card}>
-              <Typography>{classNumber}</Typography>
-              <Typography>Classes</Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={6}>
-            <Card className={classes.card}>
-              <Typography>{openMatNumber}</Typography>
-              <Typography>Open Mats</Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={6}>
-            <Card className={classes.card}>Gi</Card>
-          </Grid>
-          <Grid item xs={6}>
-            <Card>No Gi</Card>
-          </Grid>
+    <div className={classes.root}>
+      <Grid container spacing={16}>
+        <Grid item xs={12}>
+          <Typography variant="h4" component="h2">
+            {currentMonthName} Summary
+          </Typography>
         </Grid>
-      </Paper>
+        <Grid item xs={12} sm={6} md={6} lg={3}>
+          <Card className={classes.card}>
+            <Typography variant="h4" component="h4">
+              {classCount}
+            </Typography>
+            <Typography variant="h6" component="h4">
+              Classes
+            </Typography>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={6} md={6} lg={3}>
+          <Card className={classes.card}>
+            <Typography variant="h4" component="h4">
+              {openMatCount}
+            </Typography>
+            <Typography variant="h6" component="h4">
+              Open Mat
+            </Typography>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={6} md={6} lg={3}>
+          <Card className={classes.card}>
+            <Typography variant="h4" component="h4">
+              {giCount}
+            </Typography>
+            <Typography variant="h6" component="h4">
+              Gi
+            </Typography>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={6} md={6} lg={3}>
+          <Card className={classes.card}>
+            <Typography variant="h4" component="h4">
+              {noGiCount}
+            </Typography>
+            <Typography variant="h6" component="h4">
+              No Gi
+            </Typography>
+          </Card>
+        </Grid>
+      </Grid>
     </div>
   );
 }
 
 MonthRecapCard.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  classCount: PropTypes.number,
+  openMatCount: PropTypes.number,
+  giCount: PropTypes.number,
+  noGiCount: PropTypes.number
 };
 
 export default withStyles(styles)(MonthRecapCard);

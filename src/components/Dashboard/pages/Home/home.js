@@ -7,7 +7,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import TrainingCard from "../../../TrainingCard";
 import MonthRecapCard from "./Cards/monthRecapCard";
 import ProfileCard from "./Cards/profileCard";
-import TotalRecapCard from "./Cards/totalRecapCard";
+import MonthRecapBarChart from "./Cards/monthRecapBarChart";
 
 import fire from "../../../../config/fire";
 
@@ -47,15 +47,34 @@ class Dashboard extends Component {
       .then(function(snapshot) {
         const trainingSessions = snapshot.val().trainingSessions;
         const trainingKeys = Object.keys(trainingSessions);
-
-        const latest = trainingKeys.reduce(
-          (acc, loc) =>
-            trainingSessions[acc].date < trainingSessions[loc].date ? acc : loc
+        let classCount = 0;
+        let giCount = 0;
+        let noGiCount = 0;
+        let openMatCount = 0;
+        const latest = trainingKeys.reduce((acc, loc) =>
+          trainingSessions[acc].date < trainingSessions[loc].date ? acc : loc
         );
 
+        trainingKeys.map(key => {
+          trainingSessions[key].style === "gi"
+            ? (giCount += 1)
+            : (noGiCount += 1);
+          trainingSessions[key].type === "class"
+            ? (classCount += 1)
+            : (openMatCount += 1);
+        });
+
         _this.setState({
+          trainingSessions: snapshot.val().trainingSessions,
           latestPost: trainingSessions[latest],
           goal: snapshot.val().profile.currentgoal,
+          name: snapshot.val().profile.name,
+          gym: snapshot.val().profile.gym,
+          rank: snapshot.val().profile.rank,
+          giCount: giCount,
+          noGiCount: noGiCount,
+          classCount: classCount,
+          openMatCount: openMatCount,
           loading: false
         });
       });
@@ -66,37 +85,46 @@ class Dashboard extends Component {
 
     return (
       <Grid container className={classes.root}>
-        <Grid item xs={12}>
-          <Typography variant="overline">Current Goal</Typography>
-          <Typography variant="h5">{this.state.goal}</Typography>
-        </Grid>
-        <Grid container spacing={16}>
-          <Grid item xs={12} sm={6}>
-            <MonthRecapCard classNumber={5} openMatNumber={8} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <ProfileCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TotalRecapCard />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Typography>Last Training Session</Typography>
-
-            {this.state.loading && (
-              <CircularProgress className={classes.progress} />
-            )}
-            {!this.state.loading && (
-              <TrainingCard
-                technique={this.state.latestPost.technique}
-                date={this.state.latestPost.date}
-                notes={this.state.latestPost.notes}
+        {this.state.loading && <p>Im loading bitch</p>}
+        {!this.state.loading && (
+          <Grid container spacing={16}>
+            <Grid item xs={12} sm={12} md={12} lg={9}>
+              <MonthRecapCard
+                classCount={this.state.classCount}
+                openMatCount={this.state.openMatCount}
+                giCount={this.state.giCount}
+                noGiCount={this.state.noGiCount}
               />
-            )}
+
+              <MonthRecapBarChart />
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={3}>
+              <ProfileCard
+                goal={this.state.goal}
+                rank={this.state.rank}
+                gym={this.state.gym}
+                name={this.state.name}
+              />
+
+              <Grid container spacing={16}>
+                <Grid item xs={12}>
+                  {this.state.loading && (
+                    <CircularProgress className={classes.progress} />
+                  )}
+                  {!this.state.loading && (
+                    <TrainingCard
+                      technique={this.state.latestPost.technique}
+                      date={this.state.latestPost.date}
+                      notes={this.state.latestPost.notes}
+                      type={this.state.latestPost.type}
+                      style={this.state.latestPost.style}
+                    />
+                  )}
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
+        )}
       </Grid>
     );
   }
