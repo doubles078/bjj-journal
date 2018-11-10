@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import TrainingCard from "../../../TrainingCard";
+import LastSessionCard from "./Cards/lastSessionCard";
 import MonthRecapCard from "./Cards/monthRecapCard";
 import ProfileCard from "./Cards/profileCard";
-import MonthRecapBarChart from "./Cards/monthRecapBarChart";
+import AllTimeRecapPieChartCard from "./Cards/allTimeRecapPieChart";
 
 import fire from "../../../../config/fire";
 
@@ -95,8 +94,11 @@ class Dashboard extends Component {
                 giCount={this.state.giCount}
                 noGiCount={this.state.noGiCount}
               />
-
-              <MonthRecapBarChart />
+              <Grid container spacing={16}>
+                <Grid item xs={12}>
+                  <AllTimeRecapPieChartCard />
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={3}>
               <ProfileCard
@@ -106,22 +108,10 @@ class Dashboard extends Component {
                 name={this.state.name}
               />
 
-              <Grid container spacing={16}>
-                <Grid item xs={12}>
-                  {this.state.loading && (
-                    <CircularProgress className={classes.progress} />
-                  )}
-                  {!this.state.loading && (
-                    <TrainingCard
-                      technique={this.state.latestPost.technique}
-                      date={this.state.latestPost.date}
-                      notes={this.state.latestPost.notes}
-                      type={this.state.latestPost.type}
-                      style={this.state.latestPost.style}
-                    />
-                  )}
-                </Grid>
-              </Grid>
+              <LastSessionCard
+                latestPost={this.state.latestPost}
+                loading={this.state.loading}
+              />
             </Grid>
           </Grid>
         )}
