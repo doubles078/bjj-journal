@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 import LastSessionCard from "./Cards/lastSessionCard";
 import MonthRecapCard from "./Cards/monthRecapCard";
 import ProfileCard from "./Cards/profileCard";
-import AllTimeRecapPieChartCard from "./Cards/allTimeRecapPieChart";
+import AllTimeStatsCard from "./Cards/allTimeStatsCard";
+import VanityCard from "./Cards/vanityStatsCard";
 
 import fire from "../../../../config/fire";
 
@@ -31,7 +34,8 @@ class Dashboard extends Component {
 
     this.state = {
       userid: fire.auth().currentUser.uid,
-      loading: true
+      loading: true,
+      tabsValue: 0
     };
   }
 
@@ -79,8 +83,13 @@ class Dashboard extends Component {
       });
   }
 
+  handleTabChange = (event, value) => {
+    this.setState({ value });
+  };
+
   render() {
     const { classes } = this.props;
+    const { tabsValue } = this.state;
 
     return (
       <Grid container className={classes.root}>
@@ -96,7 +105,14 @@ class Dashboard extends Component {
               />
               <Grid container spacing={16}>
                 <Grid item xs={12}>
-                  <AllTimeRecapPieChartCard />
+                  <AppBar position="static" color="default">
+                    <Tabs value={tabsValue} onChange={this.handleTabChange}>
+                      <Tab value={0} label="Table" />
+                      <Tab value={1} label="Graphs" />
+                    </Tabs>
+                  </AppBar>
+                  {tabsValue === 0 && <AllTimeStatsCard />}
+                  {tabsValue === 1 && <VanityCard />}
                 </Grid>
               </Grid>
             </Grid>
@@ -112,6 +128,9 @@ class Dashboard extends Component {
                 latestPost={this.state.latestPost}
                 loading={this.state.loading}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <VanityCard />
             </Grid>
           </Grid>
         )}

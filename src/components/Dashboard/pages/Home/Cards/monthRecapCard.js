@@ -6,10 +6,6 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import classNames from "classnames";
 
-import Cyan from "@material-ui/core/colors/cyan";
-import Pink from "@material-ui/core/colors/pink";
-import Amber from "@material-ui/core/colors/amber";
-
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
@@ -21,7 +17,7 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "center",
     padding: "3rem",
-    minWidth: "125px",
+    minWidth: "90px",
     color: "#fff"
   },
   classesColor: {
