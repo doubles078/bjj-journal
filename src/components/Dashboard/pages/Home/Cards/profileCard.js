@@ -11,6 +11,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+    paddingBottom: theme.spacing.unit * 2
+  },
   paper: {
     display: "flex",
     flexDirection: "column",
@@ -31,7 +35,7 @@ const styles = theme => ({
 
 function PaperSheet({ classes, name, gym, rank }) {
   return (
-    <Grid container spacing={16}>
+    <Grid container className={classes.root} spacing={16}>
       <Grid item xs={12}>
         <Typography variant="h4" component="h2">
           Profile

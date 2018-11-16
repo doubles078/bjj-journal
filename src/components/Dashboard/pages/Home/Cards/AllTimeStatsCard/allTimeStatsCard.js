@@ -10,6 +10,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 
+import VanityStatsCard from "./vanityStatsCard";
+
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
@@ -24,66 +26,106 @@ const styles = theme => ({
 });
 
 function AllTimeStatsCard(props) {
-  const { classes } = props;
+  const {
+    classes,
+    allPosts,
+    classCount,
+    openMatCount,
+    giCount,
+    noGiCount
+  } = props;
+  const allPostsKeys = Object.keys(allPosts);
 
-  const rows = [
+  let dayObjectList = [
     {
       id: "Monday",
-      totalclasses: 5,
-      totalopenmats: 2,
-      totalgi: 3,
-      totalnogi: 100
+      totalclasses: 0,
+      totalopenmats: 0,
+      totalClassAndMat: 0,
+      totalgi: 0,
+      totalnogi: 0
     },
     {
       id: "Tuesday",
-      totalclasses: 5,
-      totalopenmats: 2,
-      totalgi: 3,
-      totalnogi: 100
+      totalclasses: 0,
+      totalClassAndMat: 0,
+      totalopenmats: 0,
+      totalgi: 0,
+      totalnogi: 0
     },
     {
       id: "Wednesday",
-      totalclasses: 5,
-      totalopenmats: 2,
-      totalgi: 3,
-      totalnogi: 100
+      totalclasses: 0,
+      totalClassAndMat: 0,
+      totalopenmats: 0,
+      totalgi: 0,
+      totalnogi: 0
     },
     {
       id: "Thursday",
-      totalclasses: 5,
-      totalopenmats: 2,
-      totalgi: 3,
-      totalnogi: 100
+      totalclasses: 0,
+      totalClassAndMat: 0,
+      totalopenmats: 0,
+      totalgi: 0,
+      totalnogi: 0
     },
     {
       id: "Friday",
-      totalclasses: 5,
-      totalopenmats: 2,
-      totalgi: 3,
-      totalnogi: 100
+      totalclasses: 0,
+      totalClassAndMat: 0,
+      totalopenmats: 0,
+      totalgi: 0,
+      totalnogi: 0
     },
     {
       id: "Saturday",
-      totalclasses: 5,
-      totalopenmats: 2,
-      totalgi: 3,
-      totalnogi: 100
+      totalclasses: 0,
+      totalClassAndMat: 0,
+      totalopenmats: 0,
+      totalgi: 0,
+      totalnogi: 0
     },
     {
       id: "Sunday",
-      totalclasses: 5,
-      totalopenmats: 2,
-      totalgi: 3,
-      totalnogi: 100
+      totalclasses: 0,
+      totalClassAndMat: 0,
+      totalopenmats: 0,
+      totalgi: 0,
+      totalnogi: 0
     },
     {
       id: "Total",
-      totalclasses: 100,
-      totalopenmats: 20,
-      totalgi: 23,
-      totalnogi: 3333
+      totalclasses: 0,
+      totalClassAndMat: 0,
+      totalopenmats: 0,
+      totalgi: 0,
+      totalnogi: 0
     }
   ];
+
+  allPostsKeys.map(key => {
+    let postDate = new Date(allPosts[key].date).getDay();
+
+    if (allPosts[key].type === "class") {
+      dayObjectList[postDate - 1].totalclasses += 1;
+      dayObjectList[7].totalclasses += 1;
+    } else {
+      dayObjectList[postDate - 1].totalopenmats += 1;
+      dayObjectList[7].totalopenmats += 1;
+    }
+
+    if (allPosts[key].style === "gi") {
+      dayObjectList[postDate - 1].totalgi += 1;
+      dayObjectList[7].totalgi += 1;
+    } else {
+      dayObjectList[postDate - 1].totalnogi += 1;
+      dayObjectList[7].totalnogi += 1;
+    }
+
+    dayObjectList[postDate - 1].totalClassAndMat += 1;
+    dayObjectList[7].totalClassAndMat += 1;
+  });
+
   return (
     <div className={classes.root}>
       <Grid container spacing={16}>
@@ -99,19 +141,21 @@ function AllTimeStatsCard(props) {
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Total Classes</TableCell>
+                      <TableCell>Day</TableCell>
+                      <TableCell numeric>Total Classes</TableCell>
                       <TableCell numeric>Total Open Mats</TableCell>
                       <TableCell numeric>Total Gi</TableCell>
                       <TableCell numeric>Total No Gi</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map(row => {
+                    {dayObjectList.map(row => {
                       return (
                         <TableRow key={row.id}>
                           <TableCell component="th" scope="row">
                             {row.id}
                           </TableCell>
+                          <TableCell numeric>{row.totalclasses}</TableCell>
                           <TableCell numeric>{row.totalopenmats}</TableCell>
                           <TableCell numeric>{row.totalgi}</TableCell>
                           <TableCell numeric>{row.totalnogi}</TableCell>
@@ -120,6 +164,14 @@ function AllTimeStatsCard(props) {
                     })}
                   </TableBody>
                 </Table>
+
+                <VanityStatsCard
+                  classCount={classCount}
+                  openMatCount={openMatCount}
+                  giCount={giCount}
+                  noGiCount={noGiCount}
+                  dayObjectList={dayObjectList}
+                />
               </Grid>
             </Grid>
           </Paper>
@@ -130,7 +182,8 @@ function AllTimeStatsCard(props) {
 }
 
 AllTimeStatsCard.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  allPosts: PropTypes.object
 };
 
 export default withStyles(styles)(AllTimeStatsCard);

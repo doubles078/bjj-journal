@@ -2,14 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import LastSessionCard from "./Cards/lastSessionCard";
 import MonthRecapCard from "./Cards/monthRecapCard";
 import ProfileCard from "./Cards/profileCard";
-import AllTimeStatsCard from "./Cards/allTimeStatsCard";
-import VanityCard from "./Cards/vanityStatsCard";
+import AllTimeStatsCard from "./Cards/AllTimeStatsCard/allTimeStatsCard";
 
 import fire from "../../../../config/fire";
 
@@ -34,8 +30,7 @@ class Dashboard extends Component {
 
     this.state = {
       userid: fire.auth().currentUser.uid,
-      loading: true,
-      tabsValue: 0
+      loading: true
     };
   }
 
@@ -54,6 +49,7 @@ class Dashboard extends Component {
         let giCount = 0;
         let noGiCount = 0;
         let openMatCount = 0;
+
         const latest = trainingKeys.reduce((acc, loc) =>
           trainingSessions[acc].date < trainingSessions[loc].date ? acc : loc
         );
@@ -83,13 +79,8 @@ class Dashboard extends Component {
       });
   }
 
-  handleTabChange = (event, value) => {
-    this.setState({ value });
-  };
-
   render() {
     const { classes } = this.props;
-    const { tabsValue } = this.state;
 
     return (
       <Grid container className={classes.root}>
@@ -105,32 +96,33 @@ class Dashboard extends Component {
               />
               <Grid container spacing={16}>
                 <Grid item xs={12}>
-                  <AppBar position="static" color="default">
-                    <Tabs value={tabsValue} onChange={this.handleTabChange}>
-                      <Tab value={0} label="Table" />
-                      <Tab value={1} label="Graphs" />
-                    </Tabs>
-                  </AppBar>
-                  {tabsValue === 0 && <AllTimeStatsCard />}
-                  {tabsValue === 1 && <VanityCard />}
+                  <AllTimeStatsCard
+                    allPosts={this.state.trainingSessions}
+                    classCount={this.state.classCount}
+                    openMatCount={this.state.openMatCount}
+                    giCount={this.state.giCount}
+                    noGiCount={this.state.noGiCount}
+                  />
                 </Grid>
               </Grid>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={3}>
-              <ProfileCard
-                goal={this.state.goal}
-                rank={this.state.rank}
-                gym={this.state.gym}
-                name={this.state.name}
-              />
-
-              <LastSessionCard
-                latestPost={this.state.latestPost}
-                loading={this.state.loading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <VanityCard />
+              <Grid container>
+                <Grid item xs={12} sm={6} md={6} lg={12}>
+                  <ProfileCard
+                    goal={this.state.goal}
+                    rank={this.state.rank}
+                    gym={this.state.gym}
+                    name={this.state.name}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={12}>
+                  <LastSessionCard
+                    latestPost={this.state.latestPost}
+                    loading={this.state.loading}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         )}
