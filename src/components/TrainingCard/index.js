@@ -48,7 +48,7 @@ const TrainingCard = ({ classes, technique, notes, date, type, style }) => {
 
         <Typography component="p">{truncNotes}</Typography>
       </CardContent>
-      <Footer giornogi={style} classormat={type} />
+      <Footer giornogi={style} classormat={type} date={date} />
     </Card>
   );
 };

@@ -111,6 +111,17 @@ class App extends Component {
                 />
                 <Route
                   exact
+                  path="/detail?id=:id"
+                  render={() =>
+                    this.state.user ? (
+                      <Dashboard currentpage="detailpage" />
+                    ) : (
+                      <Redirect to="/signin" />
+                    )
+                  }
+                />
+                <Route
+                  exact
                   path="/profile"
                   render={() =>
                     this.state.user ? <Profile /> : <Redirect to="/signin" />

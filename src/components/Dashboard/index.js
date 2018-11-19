@@ -9,6 +9,7 @@ import ListData from "./components/Drawer";
 import DashboardAppBar from "./components/AppBar";
 import Home from "./pages/Home";
 import MyFeed from "./pages/Feed";
+import DetailPage from "./pages/Detail";
 import Add from "./pages/Add";
 
 import fire from "../../config/fire";
@@ -81,6 +82,10 @@ class DashboardContainer extends Component {
       case "add":
         currentpage = <Add />;
         currentpageContext = "Add a Session";
+        break;
+      case "detailpage":
+        currentpage = <DetailPage />;
+        currentpageContext = "Detail page";
         break;
       default:
         currentpageContext = "Dashboard";

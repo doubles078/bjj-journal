@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -8,6 +9,9 @@ import PropTypes from "prop-types";
 const styles = theme => ({
   button: {
     marginLeft: "auto"
+  },
+  clear: {
+    color: "inherit"
   },
   text: {
     marginBottom: 12,
@@ -25,7 +29,7 @@ class CardFooter extends React.Component {
 
   render() {
     const { value } = this.state;
-    const { classes, classormat, giornogi } = this.props;
+    const { classes, classormat, giornogi, date } = this.props;
 
     return (
       <CardActions value={value} onChange={this.handleChange}>
@@ -33,7 +37,14 @@ class CardFooter extends React.Component {
           {classormat} | {giornogi}
         </Typography>
         <Button className={classes.button} color="primary" size="small">
-          Read More
+          <Link
+            to={{
+              pathname: "/detail?id=" + date
+            }}
+            className={classes.clear}
+          >
+            Read More
+          </Link>
         </Button>
       </CardActions>
     );

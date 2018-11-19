@@ -42,7 +42,7 @@ class Dashboard extends Component {
       .database()
       .ref("users/" + userid)
       .once("value")
-      .then(function(snapshot) {
+      .then(snapshot => {
         const trainingSessions = snapshot.val().trainingSessions;
         const trainingKeys = Object.keys(trainingSessions);
         let classCount = 0;
