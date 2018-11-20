@@ -67,9 +67,9 @@ class DetailPage extends Component {
       notes: "",
       didwell: "",
       workon: "",
-      date: Date.now(),
-      time: new Date().getTime(),
-      redirect: false,
+      date: "",
+      time: "",
+      loading: true,
       error: false
     };
 
@@ -88,7 +88,24 @@ class DetailPage extends Component {
       .database()
       .ref("users/" + this.state.userid + "/trainingSessions")
       .orderByChild("date")
-      .on("value", data => console.log(data.val()[0].date));
+      .on("value", data => {
+        const dataKeys = Object.keys(data.val());
+        const currentSession = data.val()[dataKeys[0]];
+        if (currentSession.date === Number(queryParam)) {
+          _this.setState({
+            type: currentSession.type,
+            style: currentSession.style,
+            technique: currentSession.technique,
+            notes: currentSession.notes,
+            didwell: currentSession.didwell,
+            workon: currentSession.workon,
+            date: currentSession.date,
+            time: currentSession.time,
+            loading: false
+          });
+          console.log("Success");
+        }
+      });
   }
   handleChange(e) {
     e.preventDefault();
@@ -151,7 +168,7 @@ class DetailPage extends Component {
         <Grid container spacing={8}>
           <Grid item xs={12}>
             <Typography variant="h4" gutterBottom>
-              Edit a training
+              Session Details
             </Typography>
           </Grid>
           <Grid item xs={12}>

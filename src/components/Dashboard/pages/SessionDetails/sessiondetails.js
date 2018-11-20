@@ -26,7 +26,7 @@ function TitlebarGridList(props) {
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
-        <h1>I Am Feed</h1>
+        <h1>Session Details</h1>
       </Grid>
       <Grid container spacing={8}>
         <Grid item xs={12}>
