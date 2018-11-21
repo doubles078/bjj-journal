@@ -244,6 +244,7 @@ class AddTrainingSession extends Component {
                     name="workon"
                     value={workon}
                     label="What I Could Work On"
+                    multiline
                     fullWidth
                     margin="normal"
                     onChange={this.handleChange}

@@ -55,7 +55,6 @@ function VanityStatsCard(props) {
         pieChartDataforDays.push({ x: day.id, y: day.totalClassAndMat });
 
         if (day.totalClassAndMat > largestDayNumber) {
-          console.log(day.totalClassAndMat);
           largestDay = day.id;
           largestDayNumber = day.totalClassAndMat;
         }
@@ -66,7 +65,6 @@ function VanityStatsCard(props) {
   let largestDayPercent =
     (largestDayNumber / dayObjectList[7].totalClassAndMat).toFixed(1) * 100;
   const largestDayText = `${largestDayPercent}% ${largestDay}`;
-  console.log(largestDayNumber);
   return (
     <div className={classes.root}>
       <Grid container spacing={16}>

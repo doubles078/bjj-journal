@@ -7,6 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
+import DeleteIcon from "@material-ui/icons/Delete";
+
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { Redirect } from "react-router-dom";
@@ -33,7 +35,7 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit * 3,
     padding: theme.spacing.unit * 2,
     [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-      marginTop: theme.spacing.unit * 6,
+      marginTop: theme.spacing.unit * 0,
       marginBottom: theme.spacing.unit * 6,
       padding: theme.spacing.unit * 3
     }
@@ -51,6 +53,12 @@ const styles = theme => ({
   },
   notes: {
     display: "flex"
+  },
+  button: {
+    marginTop: theme.spacing.unit * 3
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
   }
 });
 
@@ -69,20 +77,20 @@ class DetailPage extends Component {
       workon: "",
       date: "",
       time: "",
+      sessionid: "",
       loading: true,
+      redirect: false,
       error: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   componentDidMount() {
     const _this = this;
-    const userid = this.state.userid;
     const queryParam = new URLSearchParams(window.location.search).get("id");
-
-    console.log(queryParam);
 
     fire
       .database()
@@ -90,31 +98,76 @@ class DetailPage extends Component {
       .orderByChild("date")
       .on("value", data => {
         const dataKeys = Object.keys(data.val());
-        const currentSession = data.val()[dataKeys[0]];
-        if (currentSession.date === Number(queryParam)) {
-          _this.setState({
-            type: currentSession.type,
-            style: currentSession.style,
-            technique: currentSession.technique,
-            notes: currentSession.notes,
-            didwell: currentSession.didwell,
-            workon: currentSession.workon,
-            date: currentSession.date,
-            time: currentSession.time,
-            loading: false
-          });
-          console.log("Success");
-        }
+
+        dataKeys.map(key => {
+          const currentSession = data.val()[key];
+
+          if (currentSession.date === Number(queryParam)) {
+            const currentDate = new Date(currentSession.date)
+              .toISOString()
+              .substr(0, 10);
+
+            _this.setState({
+              type: currentSession.type,
+              style: currentSession.style,
+              technique: currentSession.technique,
+              notes: currentSession.notes,
+              didwell: currentSession.didwell,
+              workon: currentSession.workon,
+              date: currentSession.date,
+              datestring: currentDate,
+              time: currentSession.time,
+              sessionid: key,
+              loading: false
+            });
+          }
+        });
       });
   }
+
   handleChange(e) {
     e.preventDefault();
+
+    if (e.currentTarget.name === "date") {
+      const dateSplit = e.currentTarget.value.split("-");
+      const dateCleaned = new Date(dateSplit[0], dateSplit[1], dateSplit[2]);
+      const milliDate = dateCleaned.getTime();
+
+      this.setState({
+        [e.currentTarget.name]: milliDate,
+        datestring: e.currentTarget.value,
+        time: new Date().getTime()
+      });
+
+      return;
+    }
 
     this.setState({
       [e.currentTarget.name]: e.currentTarget.value,
       time: new Date().getTime()
     });
   }
+
+  firebaseUpdate = () => {
+    fire
+      .database()
+      .ref(
+        "users/" +
+          this.state.userid +
+          "/trainingSessions/" +
+          this.state.sessionid
+      )
+      .update({
+        type: this.state.type,
+        style: this.state.style,
+        technique: this.state.technique,
+        notes: this.state.notes,
+        didwell: this.state.didwell,
+        workon: this.state.workon,
+        date: this.state.date,
+        time: this.state.time
+      });
+  };
 
   handleSubmit(e) {
     e.preventDefault();
@@ -126,15 +179,19 @@ class DetailPage extends Component {
     } else {
       this.setState({ error: false });
       this.firebaseSubmit();
-      this.setRedirect();
     }
   }
 
   firebaseSubmit = () => {
     fire
       .database()
-      .ref("users/" + this.state.userid + "/trainingSessions")
-      .push({
+      .ref(
+        "users/" +
+          this.state.userid +
+          "/trainingSessions/" +
+          this.state.sessionid
+      )
+      .update({
         type: this.state.type,
         style: this.state.style,
         technique: this.state.technique,
@@ -144,6 +201,24 @@ class DetailPage extends Component {
         date: this.state.date,
         time: this.state.time
       });
+  };
+
+  handleRemove(e) {
+    e.preventDefault();
+    this.firebaseRemove();
+    this.setRedirect();
+  }
+
+  firebaseRemove = () => {
+    fire
+      .database()
+      .ref(
+        "users/" +
+          this.state.userid +
+          "/trainingSessions/" +
+          this.state.sessionid
+      )
+      .remove();
   };
 
   renderRedirect = () => {
@@ -160,7 +235,15 @@ class DetailPage extends Component {
 
   render() {
     const { classes } = this.props;
-    const { type, style, technique, notes, didwell, workon } = this.state;
+    const {
+      type,
+      style,
+      technique,
+      notes,
+      didwell,
+      workon,
+      datestring
+    } = this.state;
 
     return (
       <Grid container className={classes.root}>
@@ -179,6 +262,20 @@ class DetailPage extends Component {
                 className={classes.form}
                 onSubmit={this.handleSubmit}
               >
+                <Grid item xs={12} sm={12}>
+                  <TextField
+                    onChange={this.handleChange}
+                    id="date"
+                    label="Date"
+                    type="date"
+                    name="date"
+                    value={datestring}
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                </Grid>
                 <Grid item xs={12} sm={12}>
                   {this.state.error && (
                     <FormHelperText className={classes.error}>
@@ -274,6 +371,7 @@ class DetailPage extends Component {
                     name="workon"
                     value={workon}
                     label="What I Could Work On"
+                    multiline
                     fullWidth
                     margin="normal"
                     onChange={this.handleChange}
@@ -286,7 +384,17 @@ class DetailPage extends Component {
                     color="secondary"
                     type="submit"
                   >
-                    Save
+                    Update
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    color="default"
+                    className={classes.button}
+                    onClick={this.handleRemove}
+                  >
+                    Delete
+                    <DeleteIcon className={classes.rightIcon} />
                   </Button>
                 </Grid>
               </form>
