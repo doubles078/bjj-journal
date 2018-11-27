@@ -9,8 +9,7 @@ import Footer from "./footer";
 const styles = theme => ({
   card: {
     borderTop: "10px solid " + theme.palette.primary.main,
-    maxWidth: "100%",
-    minWidth: 275
+    maxWidth: "100%"
   },
   cardContain: {
     display: "flex",

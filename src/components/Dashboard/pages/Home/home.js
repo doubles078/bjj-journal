@@ -41,18 +41,43 @@ class Dashboard extends Component {
     fire
       .database()
       .ref("users/" + userid)
-      .once("value")
-      .then(snapshot => {
+      .on("value", snapshot => {
         const trainingSessions = snapshot.val().trainingSessions;
         const trainingKeys = Object.keys(trainingSessions);
+        console.log(trainingKeys);
+        console.log(trainingKeys[trainingKeys.length - 1]);
+        console.log(trainingSessions);
+        console.log(trainingSessions["-LQpDeAJDsSI3SRrigtx"]);
+        console.log(
+          trainingSessions[trainingKeys[trainingKeys.length - 1]].technique
+        );
+        const monthNames = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ];
+        const currentMonth = new Date().getMonth();
+        const currentMonthName = monthNames[currentMonth];
         let classCount = 0;
         let giCount = 0;
         let noGiCount = 0;
         let openMatCount = 0;
+        let monthlyClassCount = 0;
+        let monthlyGiCount = 0;
+        let monthlyNoGiCount = 0;
+        let monthlyOpenMatCount = 0;
 
-        const latest = trainingKeys.reduce((acc, loc) =>
-          trainingSessions[acc].date < trainingSessions[loc].date ? acc : loc
-        );
+        //This is broken
+        const latest = trainingSessions[trainingKeys[trainingKeys.length - 1]];
 
         trainingKeys.map(key => {
           trainingSessions[key].style === "gi"
@@ -63,9 +88,22 @@ class Dashboard extends Component {
             : (openMatCount += 1);
         });
 
+        trainingKeys.map(key => {
+          const sessionMonth = new Date(trainingSessions[key].date).getMonth();
+
+          if (sessionMonth === currentMonth) {
+            trainingSessions[key].style === "gi"
+              ? (monthlyGiCount += 1)
+              : (monthlyNoGiCount += 1);
+            trainingSessions[key].type === "class"
+              ? (monthlyClassCount += 1)
+              : (monthlyOpenMatCount += 1);
+          }
+        });
+
         _this.setState({
           trainingSessions: snapshot.val().trainingSessions,
-          latestPost: trainingSessions[latest],
+          latestPost: latest,
           goal: snapshot.val().profile.currentgoal,
           name: snapshot.val().profile.name,
           gym: snapshot.val().profile.gym,
@@ -74,6 +112,11 @@ class Dashboard extends Component {
           noGiCount: noGiCount,
           classCount: classCount,
           openMatCount: openMatCount,
+          monthlyClassCount: monthlyClassCount,
+          monthlyGiCount: monthlyGiCount,
+          monthlyNoGiCount: monthlyNoGiCount,
+          monthlyOpenMatCount: monthlyOpenMatCount,
+          currentMonthName: currentMonthName,
           loading: false
         });
       });
@@ -84,15 +127,16 @@ class Dashboard extends Component {
 
     return (
       <Grid container className={classes.root}>
-        {this.state.loading && <p>Im loading bitch</p>}
+        {this.state.loading && <p>Im loading</p>}
         {!this.state.loading && (
           <Grid container spacing={16}>
             <Grid item xs={12} sm={12} md={12} lg={9}>
               <MonthRecapCard
-                classCount={this.state.classCount}
-                openMatCount={this.state.openMatCount}
-                giCount={this.state.giCount}
-                noGiCount={this.state.noGiCount}
+                classCount={this.state.monthlyClassCount}
+                openMatCount={this.state.monthlyOpenMatCount}
+                giCount={this.state.monthlyGiCount}
+                noGiCount={this.state.monthlyNoGiCount}
+                currentMonthName={this.state.currentMonthName}
               />
               <Grid container spacing={16}>
                 <Grid item xs={12}>

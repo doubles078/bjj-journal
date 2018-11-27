@@ -39,24 +39,9 @@ function MonthRecapCard({
   classCount,
   openMatCount,
   giCount,
-  noGiCount
+  noGiCount,
+  currentMonthName
 }) {
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ];
-  const month = new Date().getMonth();
-  const currentMonthName = monthNames[month];
   return (
     <div className={classes.root}>
       <Grid container spacing={16}>

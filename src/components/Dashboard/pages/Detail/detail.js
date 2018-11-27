@@ -76,6 +76,7 @@ class DetailPage extends Component {
       didwell: "",
       workon: "",
       date: "",
+      datestring: "",
       time: "",
       sessionid: "",
       loading: true,
@@ -130,7 +131,11 @@ class DetailPage extends Component {
 
     if (e.currentTarget.name === "date") {
       const dateSplit = e.currentTarget.value.split("-");
-      const dateCleaned = new Date(dateSplit[0], dateSplit[1], dateSplit[2]);
+      const dateCleaned = new Date(
+        dateSplit[0],
+        dateSplit[1] - 1,
+        dateSplit[2]
+      );
       const milliDate = dateCleaned.getTime();
 
       this.setState({
@@ -178,6 +183,8 @@ class DetailPage extends Component {
       return;
     } else {
       this.setState({ error: false });
+      this.setRedirect();
+      this.renderRedirect();
       this.firebaseSubmit();
     }
   }
@@ -223,7 +230,7 @@ class DetailPage extends Component {
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      return <Redirect to={"/dashboard"} />;
+      return <Redirect to={"/myfeed"} />;
     }
   };
 

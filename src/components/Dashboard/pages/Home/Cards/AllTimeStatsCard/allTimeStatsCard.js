@@ -107,22 +107,22 @@ function AllTimeStatsCard(props) {
     let postDate = new Date(allPosts[key].date).getDay();
 
     if (allPosts[key].type === "class") {
-      dayObjectList[postDate - 1].totalclasses += 1;
+      dayObjectList[postDate].totalclasses += 1;
       dayObjectList[7].totalclasses += 1;
     } else {
-      dayObjectList[postDate - 1].totalopenmats += 1;
+      dayObjectList[postDate].totalopenmats += 1;
       dayObjectList[7].totalopenmats += 1;
     }
 
     if (allPosts[key].style === "gi") {
-      dayObjectList[postDate - 1].totalgi += 1;
+      dayObjectList[postDate].totalgi += 1;
       dayObjectList[7].totalgi += 1;
     } else {
-      dayObjectList[postDate - 1].totalnogi += 1;
+      dayObjectList[postDate].totalnogi += 1;
       dayObjectList[7].totalnogi += 1;
     }
 
-    dayObjectList[postDate - 1].totalClassAndMat += 1;
+    dayObjectList[postDate].totalClassAndMat += 1;
     dayObjectList[7].totalClassAndMat += 1;
   });
 
