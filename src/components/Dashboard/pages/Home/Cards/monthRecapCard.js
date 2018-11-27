@@ -17,7 +17,6 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "center",
     padding: "3rem",
-    minWidth: "90px",
     color: "#fff"
   },
   classesColor: {

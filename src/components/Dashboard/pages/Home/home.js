@@ -129,7 +129,7 @@ class Dashboard extends Component {
       <Grid container className={classes.root}>
         {this.state.loading && <p>Im loading</p>}
         {!this.state.loading && (
-          <Grid container spacing={16}>
+          <Grid container spacing={8}>
             <Grid item xs={12} sm={12} md={12} lg={9}>
               <MonthRecapCard
                 classCount={this.state.monthlyClassCount}

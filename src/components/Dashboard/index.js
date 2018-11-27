@@ -52,7 +52,7 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    overflow: "scroll",
+    overflowY: "scroll",
     padding: theme.spacing.unit * 3
   }
 });
@@ -114,7 +114,7 @@ class DashboardContainer extends Component {
           toggle={this.handleDrawerToggle}
           currentpageContext={currentpageContext}
         />
-        <Hidden mdUp>
+        <Hidden lgUp>
           <Drawer
             variant="temporary"
             anchor={theme.direction === "rtl" ? "right" : "left"}
@@ -130,7 +130,7 @@ class DashboardContainer extends Component {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden smDown implementation="css">
+        <Hidden mdDown implementation="css">
           <Drawer
             variant="permanent"
             open

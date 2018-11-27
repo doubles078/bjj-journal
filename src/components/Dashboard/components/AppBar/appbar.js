@@ -14,12 +14,12 @@ const styles = theme => ({
   appBar: {
     position: "absolute",
     marginLeft: drawerWidth,
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("lg")]: {
       width: `calc(100% - ${drawerWidth}px)`
     }
   },
   navIconHide: {
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("lg")]: {
       display: "none"
     }
   },
