@@ -10,7 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { Redirect } from "react-router-dom";
-import fire from "./src/config/fire";
+import fire from "../../../../config/fire";
 
 const styles = theme => ({
   root: {
