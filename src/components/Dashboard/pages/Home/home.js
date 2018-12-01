@@ -44,13 +44,7 @@ class Dashboard extends Component {
       .on("value", snapshot => {
         const trainingSessions = snapshot.val().trainingSessions;
         const trainingKeys = Object.keys(trainingSessions);
-        console.log(trainingKeys);
-        console.log(trainingKeys[trainingKeys.length - 1]);
-        console.log(trainingSessions);
-        console.log(trainingSessions["-LQpDeAJDsSI3SRrigtx"]);
-        console.log(
-          trainingSessions[trainingKeys[trainingKeys.length - 1]].technique
-        );
+
         const monthNames = [
           "January",
           "February",

@@ -87,20 +87,20 @@ function PaperSheet({ classes, name, gym, rank }) {
           <Grid container>
             <Grid item xs={6}>
               <Card className={classes.card}>
-                <Typography variant="h5" component="h4" color="black">
+                <Typography variant="h5" component="h4" color="default">
                   2
                 </Typography>
-                <Typography component="p" color="black">
+                <Typography component="p" color="default">
                   Classes
                 </Typography>
               </Card>
             </Grid>
             <Grid item xs={6}>
               <Card className={classes.card}>
-                <Typography variant="h5" component="h4" color="black">
+                <Typography variant="h5" component="h4" color="default">
                   2
                 </Typography>
-                <Typography component="p" color="black">
+                <Typography component="p" color="default">
                   Total Trained
                 </Typography>
               </Card>
