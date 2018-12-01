@@ -100,7 +100,7 @@ class DetailPage extends Component {
       .on("value", data => {
         const dataKeys = Object.keys(data.val());
 
-        dataKeys.map(key => {
+        dataKeys.forEach(key => {
           const currentSession = data.val()[key];
 
           if (currentSession.date === Number(queryParam)) {

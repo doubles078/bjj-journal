@@ -103,7 +103,7 @@ function AllTimeStatsCard(props) {
     }
   ];
 
-  allPostsKeys.map(key => {
+  allPostsKeys.forEach(key => {
     let postDate = new Date(allPosts[key].date).getDay();
 
     if (allPosts[key].type === "class") {

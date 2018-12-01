@@ -5,12 +5,8 @@ import UserIcon from "@material-ui/icons/PermIdentity";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
-import classNames from "classnames";
 
 const styles = theme => ({
   root: {

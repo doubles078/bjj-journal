@@ -73,7 +73,7 @@ class Dashboard extends Component {
         //This is broken
         const latest = trainingSessions[trainingKeys[trainingKeys.length - 1]];
 
-        trainingKeys.map(key => {
+        trainingKeys.forEach(key => {
           trainingSessions[key].style === "gi"
             ? (giCount += 1)
             : (noGiCount += 1);
@@ -82,7 +82,7 @@ class Dashboard extends Component {
             : (openMatCount += 1);
         });
 
-        trainingKeys.map(key => {
+        trainingKeys.forEach(key => {
           const sessionMonth = new Date(trainingSessions[key].date).getMonth();
 
           if (sessionMonth === currentMonth) {

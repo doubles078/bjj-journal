@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 
-import { VictoryPie, VictoryLabel, VictoryTheme } from "victory";
+import { VictoryPie, VictoryTheme } from "victory";
 
 const styles = theme => ({
   root: {
@@ -48,7 +48,7 @@ function VanityStatsCard(props) {
   let largestDay;
   let largestDayNumber = 0;
 
-  dayObjectList.map((day, index, arr) => {
+  dayObjectList.forEach((day, index, arr) => {
     //Skip the last day in the array because it holds total values
     if (index !== arr.length - 1) {
       if (day.totalClassAndMat !== 0) {
@@ -76,13 +76,7 @@ function VanityStatsCard(props) {
                 innerRadius={100}
                 data={[{ x: "Gi", y: giCount }, { x: "Nogi", y: noGiCount }]}
               />
-              <VictoryLabel
-                textAnchor="middle"
-                style={{ fontSize: 20 }}
-                x={200}
-                y={200}
-                text={giPercentText}
-              />
+              {giPercentText}
             </Grid>
             <Grid item xs={4} className={classes.barContainer}>
               <VictoryPie
@@ -93,13 +87,7 @@ function VanityStatsCard(props) {
                   { x: "Open Mat", y: openMatCount }
                 ]}
               />
-              <VictoryLabel
-                textAnchor="middle"
-                style={{ fontSize: 20 }}
-                x={200}
-                y={200}
-                text={classPercentText}
-              />
+              {classPercentText}
             </Grid>
             <Grid item xs={4} className={classes.barContainer}>
               <VictoryPie
@@ -107,13 +95,7 @@ function VanityStatsCard(props) {
                 innerRadius={100}
                 data={pieChartDataforDays}
               />
-              <VictoryLabel
-                textAnchor="middle"
-                style={{ fontSize: 20 }}
-                x={200}
-                y={200}
-                text={largestDayText}
-              />
+              {largestDayText}
             </Grid>
           </Grid>
         </Grid>
@@ -128,7 +110,7 @@ VanityStatsCard.propTypes = {
   openMatCount: PropTypes.number,
   giCount: PropTypes.number,
   noGiCount: PropTypes.number,
-  dayObjectList: PropTypes.object
+  dayObjectList: PropTypes.array
 };
 
 export default withStyles(styles)(VanityStatsCard);
