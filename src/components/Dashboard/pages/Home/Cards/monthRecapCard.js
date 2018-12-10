@@ -16,7 +16,7 @@ const styles = theme => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    padding: "3rem",
+    padding: "2rem",
     color: "#fff"
   },
   classesColor: {
@@ -49,7 +49,7 @@ function MonthRecapCard({
             {currentMonthName} Summary
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} md={6} lg={3}>
+        <Grid item xs={6} sm={6} md={3} lg={3}>
           <Card className={classNames(classes.card, classes.classesColor)}>
             <Typography variant="h4" component="h5" color="inherit">
               {classCount}
@@ -59,7 +59,7 @@ function MonthRecapCard({
             </Typography>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={6} lg={3}>
+        <Grid item xs={6} sm={6} md={3} lg={3}>
           <Card className={classNames(classes.card, classes.openmatColor)}>
             <Typography variant="h4" component="h5" color="inherit">
               {openMatCount}
@@ -69,7 +69,7 @@ function MonthRecapCard({
             </Typography>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={6} lg={3}>
+        <Grid item xs={6} sm={6} md={3} lg={3}>
           <Card className={classNames(classes.card, classes.giColor)}>
             <Typography variant="h4" component="h5" color="inherit">
               {giCount}
@@ -79,7 +79,7 @@ function MonthRecapCard({
             </Typography>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={6} lg={3}>
+        <Grid item xs={6} sm={6} md={3} lg={3}>
           <Card className={classNames(classes.card, classes.nogiColor)}>
             <Typography variant="h4" component="h5" color="inherit">
               {noGiCount}

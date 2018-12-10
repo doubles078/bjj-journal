@@ -29,8 +29,7 @@ const styles = theme => ({
   paper: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    maxWidth: 400
+    alignItems: "center"
   },
   avatar: {
     margin: theme.spacing.unit,

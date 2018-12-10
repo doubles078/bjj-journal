@@ -38,6 +38,14 @@ function AllTimeStatsCard(props) {
 
   let dayObjectList = [
     {
+      id: "Sunday",
+      totalclasses: 0,
+      totalClassAndMat: 0,
+      totalopenmats: 0,
+      totalgi: 0,
+      totalnogi: 0
+    },
+    {
       id: "Monday",
       totalclasses: 0,
       totalopenmats: 0,
@@ -86,14 +94,6 @@ function AllTimeStatsCard(props) {
       totalnogi: 0
     },
     {
-      id: "Sunday",
-      totalclasses: 0,
-      totalClassAndMat: 0,
-      totalopenmats: 0,
-      totalgi: 0,
-      totalnogi: 0
-    },
-    {
       id: "Total",
       totalclasses: 0,
       totalClassAndMat: 0,
@@ -105,7 +105,7 @@ function AllTimeStatsCard(props) {
 
   allPostsKeys.forEach(key => {
     let postDate = new Date(allPosts[key].date).getDay();
-
+    console.log(postDate);
     if (allPosts[key].type === "class") {
       dayObjectList[postDate].totalclasses += 1;
       dayObjectList[7].totalclasses += 1;
@@ -142,10 +142,10 @@ function AllTimeStatsCard(props) {
                   <TableHead>
                     <TableRow>
                       <TableCell>Day</TableCell>
-                      <TableCell numeric>Total Classes</TableCell>
+                      <TableCell numeric>Gi</TableCell>
+                      <TableCell numeric>No Gi</TableCell>
                       <TableCell numeric>Total Open Mats</TableCell>
-                      <TableCell numeric>Total Gi</TableCell>
-                      <TableCell numeric>Total No Gi</TableCell>
+                      <TableCell numeric>Total Classes</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -155,10 +155,10 @@ function AllTimeStatsCard(props) {
                           <TableCell component="th" scope="row">
                             {row.id}
                           </TableCell>
-                          <TableCell numeric>{row.totalclasses}</TableCell>
-                          <TableCell numeric>{row.totalopenmats}</TableCell>
                           <TableCell numeric>{row.totalgi}</TableCell>
                           <TableCell numeric>{row.totalnogi}</TableCell>
+                          <TableCell numeric>{row.totalopenmats}</TableCell>
+                          <TableCell numeric>{row.totalclasses}</TableCell>
                         </TableRow>
                       );
                     })}

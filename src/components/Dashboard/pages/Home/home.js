@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import LastSessionCard from "./Cards/lastSessionCard";
 import MonthRecapCard from "./Cards/monthRecapCard";
-import ProfileCard from "./Cards/profileCard";
 import AllTimeStatsCard from "./Cards/AllTimeStatsCard/allTimeStatsCard";
+import GoalCard from "./Cards/goalCard";
 
 import fire from "../../../../config/fire";
 
@@ -123,8 +122,8 @@ class Dashboard extends Component {
       <Grid container className={classes.root}>
         {this.state.loading && <p>Im loading</p>}
         {!this.state.loading && (
-          <Grid container spacing={8}>
-            <Grid item xs={12} sm={12} md={12} lg={9}>
+          <Grid container spacing={16}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
               <MonthRecapCard
                 classCount={this.state.monthlyClassCount}
                 openMatCount={this.state.monthlyOpenMatCount}
@@ -133,6 +132,11 @@ class Dashboard extends Component {
                 currentMonthName={this.state.currentMonthName}
               />
               <Grid container spacing={16}>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <GoalCard goal={this.state.goal} />
+                </Grid>
+              </Grid>
+              <Grid container spacing={16}>
                 <Grid item xs={12}>
                   <AllTimeStatsCard
                     allPosts={this.state.trainingSessions}
@@ -140,24 +144,6 @@ class Dashboard extends Component {
                     openMatCount={this.state.openMatCount}
                     giCount={this.state.giCount}
                     noGiCount={this.state.noGiCount}
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={3}>
-              <Grid container>
-                <Grid item xs={12} sm={6} md={6} lg={12}>
-                  <ProfileCard
-                    goal={this.state.goal}
-                    rank={this.state.rank}
-                    gym={this.state.gym}
-                    name={this.state.name}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={12}>
-                  <LastSessionCard
-                    latestPost={this.state.latestPost}
-                    loading={this.state.loading}
                   />
                 </Grid>
               </Grid>

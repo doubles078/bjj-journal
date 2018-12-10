@@ -17,3 +17,8 @@ button a {
   text-decoration: none;
   color: #fff;
 }
+
+.beastmode {
+  background: url(logo.svg) no-repeat top left;
+  background-size: contain;
+}

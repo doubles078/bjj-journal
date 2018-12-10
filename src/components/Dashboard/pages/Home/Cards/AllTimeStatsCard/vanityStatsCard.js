@@ -27,22 +27,11 @@ const styles = theme => ({
 });
 
 function VanityStatsCard(props) {
-  const {
-    classes,
-    classCount,
-    openMatCount,
-    giCount,
-    noGiCount,
-    dayObjectList
-  } = props;
+  const { classes, giCount, noGiCount, dayObjectList } = props;
 
   const totalGiNoGi = noGiCount + giCount;
   const giPercent = (giCount / totalGiNoGi).toFixed(1) * 100;
   const giPercentText = `${giPercent}% Gi`;
-
-  const totalClassMat = noGiCount + giCount;
-  const classPercent = (classCount / totalClassMat).toFixed(1) * 100;
-  const classPercentText = `${classPercent}% Classes`;
 
   let pieChartDataforDays = [];
   let largestDay;
@@ -70,7 +59,7 @@ function VanityStatsCard(props) {
       <Grid container spacing={16}>
         <Grid item xs={12}>
           <Grid container spacing={16}>
-            <Grid item xs={4} className={classes.barContainer}>
+            <Grid item xs={12} sm={6} className={classes.barContainer}>
               <VictoryPie
                 theme={VictoryTheme.material}
                 innerRadius={100}
@@ -78,18 +67,7 @@ function VanityStatsCard(props) {
               />
               {giPercentText}
             </Grid>
-            <Grid item xs={4} className={classes.barContainer}>
-              <VictoryPie
-                theme={VictoryTheme.material}
-                innerRadius={100}
-                data={[
-                  { x: "Class", y: classCount },
-                  { x: "Open Mat", y: openMatCount }
-                ]}
-              />
-              {classPercentText}
-            </Grid>
-            <Grid item xs={4} className={classes.barContainer}>
+            <Grid item xs={12} sm={6} className={classes.barContainer}>
               <VictoryPie
                 theme={VictoryTheme.material}
                 innerRadius={100}

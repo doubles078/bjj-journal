@@ -215,7 +215,7 @@ class ProfileSettingsForm extends Component {
                 name="currentgoal"
                 value={currentgoal}
                 rows={3}
-                label="Current Jiu Jitsu Goal"
+                label="Training Goal"
                 multiline
                 fullWidth
                 margin="normal"

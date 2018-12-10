@@ -1,13 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
-import UserIcon from "@material-ui/icons/PermIdentity";
+import StarIcon from "@material-ui/icons/Star";
 
 const styles = theme => ({
+  root: {
+    ...theme.mixins.gutters()
+  },
   paper: {
     display: "flex",
     flexDirection: "row",
@@ -23,23 +27,31 @@ const styles = theme => ({
 
 function GoalCard({ classes, goal }) {
   return (
-    <Grid container spacing={16}>
-      <Grid item xs={12}>
-        <Typography variant="h4" component="h2">
-          My Goal
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <UserIcon />
-          </Avatar>
-          <Typography component="p" variant="h5">
-            {goal}
+    <div className={classes.root}>
+      <Grid container spacing={16}>
+        <Grid item xs={12}>
+          <Typography variant="h4" component="h2">
+            Training Goal
           </Typography>
-        </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <StarIcon />
+            </Avatar>
+            <Typography component="p" variant="h5">
+              {!goal && (
+                <p>
+                  Click <Link to="/profile">here</Link> to set a goal for your
+                  training.
+                </p>
+              )}
+              {goal && goal}
+            </Typography>
+          </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 }
 
