@@ -67,6 +67,7 @@ class AddTrainingSession extends Component {
       notes: "",
       didwell: "",
       workon: "",
+      currentBelt: "",
       date: Date.now(),
       time: new Date().getTime(),
       redirect: false,
@@ -78,7 +79,20 @@ class AddTrainingSession extends Component {
   }
   componentDidMount() {
     if (this.state.redirect) return <Redirect to={"/dashboard"} />;
+
+    const user = fire.auth().currentUser.uid;
+    const _this = this;
+
+    fire
+      .database()
+      .ref("users/" + user + "/profile")
+      .once("value", function(snapshot) {
+        _this.setState({
+          currentBelt: snapshot.val().rank
+        });
+      });
   }
+
   handleChange(e) {
     e.preventDefault();
 
@@ -113,6 +127,7 @@ class AddTrainingSession extends Component {
         notes: this.state.notes,
         didwell: this.state.didwell,
         workon: this.state.workon,
+        currentBelt: this.state.currentBelt,
         date: this.state.date,
         time: this.state.time
       });

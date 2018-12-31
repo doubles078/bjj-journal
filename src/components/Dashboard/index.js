@@ -11,7 +11,6 @@ import Home from "./pages/Home";
 import MyFeed from "./pages/Feed";
 import DetailPage from "./pages/Detail";
 import Add from "./pages/Add";
-
 import fire from "../../config/fire";
 
 const drawerWidth = 240;

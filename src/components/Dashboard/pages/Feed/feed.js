@@ -58,7 +58,7 @@ class Feed extends Component {
         </Grid>
         <Grid container spacing={16}>
           {!this.state.loading &&
-            trainingSessionList.map(trainingSession => (
+            trainingSessionList.reverse().map(trainingSession => (
               <Grid
                 item
                 xs={12}
