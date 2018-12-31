@@ -6,6 +6,10 @@ import LastSessionCard from "./Cards/lastSessionCard";
 import MonthRecapCard from "./Cards/monthRecapCard";
 import ProfileCard from "./Cards/profileCard";
 import AllTimeStatsCard from "./Cards/AllTimeStatsCard/allTimeStatsCard";
+import AddIcon from "@material-ui/icons/Add";
+import Tooltip from "@material-ui/core/Tooltip";
+import Fab from "@material-ui/core/Fab";
+import { Link } from "react-router-dom";
 
 import fire from "../../../../config/fire";
 
@@ -21,6 +25,11 @@ const styles = theme => ({
   },
   control: {
     padding: theme.spacing.unit * 2
+  },
+  absolute: {
+    position: "absolute",
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 3
   }
 });
 
@@ -163,7 +172,14 @@ class Dashboard extends Component {
               </Grid>
             </Grid>
           </Grid>
-        )}
+        )}{" "}
+        <Link to="/add">
+          <Tooltip title="Add a session" aria-label="Add a session">
+            <Fab color="secondary" className={classes.absolute}>
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+        </Link>
       </Grid>
     );
   }
