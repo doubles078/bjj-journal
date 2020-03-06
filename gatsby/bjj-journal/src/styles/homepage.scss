@@ -1,0 +1,68 @@
+$primary-color: #1934aa;
+$secondary-color: #03c39b;
+$white: #ffffff;
+$black: #000000;
+$max-content-width: 980px;
+
+.Homepage {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: $primary-color;
+  color: $white;
+  overflow: hidden;
+  &__bottom {
+    background: $white;
+    color: $black;
+    text-align: center;
+    padding: 2rem 0;
+
+    h3 {
+      margin: auto;
+    }
+
+    hr {
+      width: 75px;
+      height: 3px;
+      background: $secondary-color;
+      border: 0;
+    }
+  }
+  &__content {
+    margin: 8rem 0 4rem;
+  }
+
+  &__cta {
+    font-weight: 700;
+    background: $secondary-color;
+    border: 1px solid $secondary-color;
+    margin: 2rem 0;
+  }
+
+  &__logo {
+    margin: 7rem auto 2rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 300;
+  }
+
+  &__title {
+    font-size: 2rem;
+    color: $white;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+  }
+  &__copy {
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  &__email {
+    width: 275px;
+  }
+
+  svg {
+    display: block;
+  }
+}
