@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 import "normalize.css"
 import "antd/dist/antd.css"
+import "../styles/layout.scss"
 import { Layout as AntLayout } from "antd"
 
 import Header from "./header"
@@ -20,7 +21,7 @@ const Layout = ({ children }) => {
 
   const { Content, Footer } = AntLayout
   return (
-    <AntLayout>
+    <AntLayout className="Layout">
       <Header siteTitle={data.site.siteMetadata.title} />
 
       <Content>{children}</Content>

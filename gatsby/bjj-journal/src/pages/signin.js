@@ -2,7 +2,7 @@ import React from "react"
 import { Card, Form, Input, Button, Checkbox } from "antd"
 import { UserOutlined, LockOutlined } from "@ant-design/icons"
 import Layout from "../components/layout"
-
+import "../styles/signin.scss"
 const SignIn = () => {
   const onFinish = values => {
     console.log("Received values of form: ", values)
@@ -36,15 +36,6 @@ const SignIn = () => {
               placeholder="Password"
             />
           </Form.Item>
-          <Form.Item>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox>Remember me</Checkbox>
-            </Form.Item>
-
-            <a className="login-form-forgot" href="">
-              Forgot password
-            </a>
-          </Form.Item>
 
           <Form.Item>
             <Button
@@ -53,8 +44,13 @@ const SignIn = () => {
               className="login-form-button"
             >
               Log in
-            </Button>
-            Or <a href="/signup">sign up now!</a>
+            </Button>{" "}
+            or <a href="/signup">sign up</a>
+          </Form.Item>
+          <Form.Item>
+            <a className="login-form-forgot" href="">
+              Forgot password
+            </a>
           </Form.Item>
         </Form>
       </Card>

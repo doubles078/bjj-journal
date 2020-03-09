@@ -9,7 +9,7 @@ const SignUp = () => {
   }
 
   return (
-    <Layout>
+    <Layout style={{ minHeight: "100vh" }}>
       <Card style={{ width: 300, margin: "4rem auto" }}>
         <Form
           name="normal_login"

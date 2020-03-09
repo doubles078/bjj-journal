@@ -11,11 +11,12 @@ $max-content-width: 980px;
   background: $primary-color;
   color: $white;
   overflow: hidden;
+
   &__bottom {
     background: $white;
     color: $black;
     text-align: center;
-    padding: 2rem 0;
+    padding: 0 0 2rem 0;
 
     h3 {
       margin: auto;
@@ -29,7 +30,7 @@ $max-content-width: 980px;
     }
   }
   &__content {
-    margin: 8rem 0 4rem;
+    margin: 6rem 0 -6rem;
   }
 
   &__cta {
