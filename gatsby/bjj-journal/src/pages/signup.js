@@ -54,8 +54,8 @@ const SignUp = () => {
               className="login-form-button"
             >
               Sign up
-            </Button>
-            Or <a href="/signin">sign in</a>
+            </Button>{" "}
+            or <a href="/">sign in</a>
           </Form.Item>
         </Form>
       </Card>

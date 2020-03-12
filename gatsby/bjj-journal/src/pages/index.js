@@ -6,7 +6,7 @@ import "../styles/homepage.scss"
 
 const IndexPage = () => (
   <Layout>
-    <div class="Homepage">
+    <div className="Homepage">
       <Row style={{ maxWidth: "980px", margin: "auto" }}>
         <Col span={16}>
           <div className="Homepage__content">

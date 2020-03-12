@@ -5,6 +5,7 @@ import "normalize.css"
 import "antd/dist/antd.css"
 import "../styles/layout.scss"
 import { Layout as AntLayout } from "antd"
+import { AppMenu } from "./appMenu"
 
 import Header from "./header"
 
@@ -23,9 +24,12 @@ const Layout = ({ children }) => {
   return (
     <AntLayout className="Layout">
       <Header siteTitle={data.site.siteMetadata.title} />
-
-      <Content>{children}</Content>
-      <Footer>© {new Date().getFullYear()} ⚔️👊🥋</Footer>
+      <AntLayout>
+        <AppMenu />
+        <AntLayout style={{ padding: "24px 48px" }}>
+          <Content>{children}</Content>
+        </AntLayout>
+      </AntLayout>
     </AntLayout>
   )
 }
