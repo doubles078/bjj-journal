@@ -1,10 +1,11 @@
 import React, { useState } from "react"
-import { Menu, Button, Layout } from "antd"
+import { Menu, Layout } from "antd"
+import { Link } from "gatsby"
+
 import {
   BarChartOutlined,
-  DesktopOutlined,
+  UnorderedListOutlined,
   PlusOutlined,
-  UserOutlined,
 } from "@ant-design/icons"
 
 export const AppMenu = () => {
@@ -35,20 +36,22 @@ export const AppMenu = () => {
         style={{ minHeight: "calc(100vh - 64px)", position: "relative" }}
       >
         <Menu.Item key="1">
-          <BarChartOutlined />
-          <span>Stats</span>
+          <Link to="/app/dashboard">
+            <BarChartOutlined />
+            <span>Stats</span>
+          </Link>
         </Menu.Item>
         <Menu.Item key="2">
-          <DesktopOutlined />
-          <span>Feed</span>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <UserOutlined />
-          <span>Profile</span>
+          <Link to="/app/feed">
+            <UnorderedListOutlined />
+            <span>Feed</span>{" "}
+          </Link>
         </Menu.Item>
         <Menu.Item key="3">
-          <PlusOutlined />
-          <span>Add new session</span>
+          <Link to="/app/log">
+            <PlusOutlined />
+            <span>Add new session</span>{" "}
+          </Link>
         </Menu.Item>
       </Menu>
     </Sider>

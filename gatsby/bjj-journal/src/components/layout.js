@@ -9,7 +9,7 @@ import { AppMenu } from "./appMenu"
 
 import Header from "./header"
 
-const Layout = ({ children }) => {
+const Layout = ({ showMenu = true, children }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -19,14 +19,14 @@ const Layout = ({ children }) => {
       }
     }
   `)
-
-  const { Content, Footer } = AntLayout
+  const styles = showMenu ? { padding: "24px 48px" } : {}
+  const { Content } = AntLayout
   return (
     <AntLayout className="Layout">
       <Header siteTitle={data.site.siteMetadata.title} />
       <AntLayout>
-        <AppMenu />
-        <AntLayout style={{ padding: "24px 48px" }}>
+        {showMenu && <AppMenu />}
+        <AntLayout style={styles}>
           <Content>{children}</Content>
         </AntLayout>
       </AntLayout>

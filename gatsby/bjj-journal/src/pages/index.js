@@ -1,11 +1,12 @@
 import React from "react"
+import { Link } from "gatsby"
 import { Button, Row, Col } from "antd"
 import Layout from "../components/layout"
 
 import "../styles/homepage.scss"
 
 const IndexPage = () => (
-  <Layout>
+  <Layout showMenu={false}>
     <div className="Homepage">
       <Row style={{ maxWidth: "980px", margin: "auto" }}>
         <Col span={16}>
@@ -23,7 +24,7 @@ const IndexPage = () => (
               shape="round"
               size={"large"}
             >
-              GET STARTED
+              <Link to="/login">GET STARTED</Link>
             </Button>
           </div>
         </Col>

@@ -43,7 +43,7 @@ const Dashboard = () => {
       </Col>
 
       <Col span={24} style={{ margin: "12px 0" }}>
-        <h1>Last 10 Classes</h1>
+        <h1>Previous 10 Classes</h1>
 
         <ClassesTable />
       </Col>

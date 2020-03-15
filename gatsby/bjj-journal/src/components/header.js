@@ -1,45 +1,60 @@
 import React from "react"
 import { Link, navigate } from "gatsby"
 import PropTypes from "prop-types"
-import { Layout, Row, Col } from "antd"
+import { Button, Menu, Layout, Row, Col } from "antd"
+import { Dropdown } from "antd"
+import { UserOutlined, LogoutOutlined } from "@ant-design/icons"
 
 import { isLoggedIn, logout } from "../services"
 import "../styles/header.scss"
 
-const Header = ({ siteTitle }) => {
+const Header = () => {
   const { Header } = Layout
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="1">
+        <Link to="/app/profile">
+          <UserOutlined /> Profile
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <a
+          href="/"
+          onClick={event => {
+            event.preventDefault()
+            logout(() => navigate(`/login`))
+          }}
+        >
+          <LogoutOutlined /> Logout
+        </a>
+      </Menu.Item>
+    </Menu>
+  )
+
   return (
     <Header style={{ background: "#1934aa" }}>
       <Row>
         <Col>
-          <div className="logo" />
+          <Link to="/">
+            <div className="logo" />
+          </Link>
         </Col>
         <Col style={{ marginLeft: "auto", color: "#fff" }}>
           <Row>
-            <Col>
-              <Link to="/app/login">Login</Link>
-            </Col>
             {isLoggedIn() ? (
-              <>
-                <Col>
-                  <Link to="/app/dashboard">Dashboard</Link>
-                </Col>
-                <Col>
-                  <Link to="/app/profile">Profile</Link>
-                </Col>
-                <Col>
-                  <a
-                    href="/"
-                    onClick={event => {
-                      event.preventDefault()
-                      logout(() => navigate(`/app/login`))
-                    }}
-                  >
-                    Logout
-                  </a>{" "}
-                </Col>
-              </>
-            ) : null}
+              <Col>
+                <Dropdown overlay={menu}>
+                  <Button>
+                    <UserOutlined />
+                  </Button>
+                </Dropdown>
+              </Col>
+            ) : (
+              <Col>
+                <Link to="/login">Login</Link>
+              </Col>
+            )}
           </Row>
         </Col>
       </Row>
